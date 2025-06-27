@@ -1,6 +1,6 @@
 ## MetaOS ##
 
-This is an experimental project of developing distribution for Linux
+This is an experimental project of developing distribution for Linux, which is a long-term project structured as a collection of core tools
 
 ## Features ##
 
@@ -11,3 +11,6 @@ This is an experimental project of developing distribution for Linux
 - Custom Shell - simple than bash and zsh (in future)
 - Android/IOS client for Controller - use your phone with Linux like with MacOS/Windows (in future)
   
+## Current Status ##
+
+Metahub - https://github.com/PHANTOM3114/MetaOS-Controller
