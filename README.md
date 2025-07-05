@@ -13,9 +13,10 @@ This is an experimental project of developing distribution for Linux, which is a
   
 ## Current Status ##
 
-Metahub - https://github.com/PHANTOM3114/MetaOS-Controller
-Built-in VPN - In Progress
-AI system assistant - In Progress
-CI/CD Controller - In Progress
-Custom Shell - In Progress
-Android client - https://github.com/andrewlovesapple/MetaOS-Android-App
+- Metahub - https://github.com/PHANTOM3114/MetaOS-Controller
+- Built-in VPN - In Future
+- AI system assistant - In Future
+- CI/CD Controller - In Future
+- Custom Shell - In Future
+- Android Client - https://github.com/andrewlovesapple/MetaOS-Android-App
+- IOS CLient - In Future
