@@ -1,6 +1,6 @@
 ## MetaOS ##
 
-The operating system MetaOS was created at the nexus of design and freedom. Our objective is to give users an experience that is better than Windows right out of the box by fusing the adaptability of Linux with the consideration and aesthetic brilliance of the finest ecosystems.
+The operating system MetaOS is creating at the nexus of design and freedom. Our objective is to give users an experience that is better than Windows right out of the box by fusing the adaptability of Linux with the consideration and aesthetic brilliance of the finest ecosystems.
 
 Because we value our users' intelligence, we make powerful tools available rather than hiding them. A highly integrated ecosystem of services at the core of MetaOS makes using technology easier.
 
