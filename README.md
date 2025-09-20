@@ -15,7 +15,8 @@ The development and philosophy of MetaOS are structured around four distinct clu
 
 ## 📱 Control Sector ##
 - (Future) Metahub: The central Qt-based desktop application for managing and interacting with all system components. 
-- (In Progress) Android/iOS Client: A native mobile client for remote management, notifications, and deep integration with your phone. 
+- (In Progress) Android/iOS Client: A native mobile client for remote management, notifications, and deep integration with your phone.
+- (In Progress) MetaOS Controller: point of remote management of all other daemons.
 - (Future) AI System Assistant: A personal assistant to simplify system interaction, manage tasks, and enhance security. 
 - (Future) Custom Shell: A modern, user-friendly addition to the os-specific modules.
 
@@ -25,3 +26,7 @@ The development and philosophy of MetaOS are structured around four distinct clu
 - (Future) D-Bus Integration: Adherence to modern Linux standards for robust and efficient Inter-Process Communication.
 - (Future) GPU Passthrough: Simplify your gaming experience.
 
+## Current Status ##
+MetaOS-Controller - https://github.com/PHANTOM3114/MetaOS-Controller
+MetaHub - https://github.com/PHANTOM3114/Metahub
+Ci/CD Module - https://github.com/PHANTOM3114/Ci-CD-Module
