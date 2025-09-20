@@ -27,6 +27,6 @@ The development and philosophy of MetaOS are structured around four distinct clu
 - (Future) GPU Passthrough: Simplify your gaming experience.
 
 ## Current Status ##
-MetaOS-Controller - https://github.com/PHANTOM3114/MetaOS-Controller
-MetaHub - https://github.com/PHANTOM3114/Metahub
-Ci/CD Module - https://github.com/PHANTOM3114/Ci-CD-Module
+- MetaOS-Controller - https://github.com/PHANTOM3114/MetaOS-Controller
+- MetaHub - https://github.com/PHANTOM3114/Metahub
+- Ci/CD Module - https://github.com/PHANTOM3114/Ci-CD-Module
