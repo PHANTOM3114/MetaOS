@@ -29,7 +29,7 @@ The development and philosophy of MetaOS are structured around three distinct cl
 | Component | Status | Description |
 |---|---|---|
 |**Metahub** | ![Status](https://img.shields.io/badge/status-in%20progress-yellow)|The central Qt-based desktop application for managing and interacting with all system components. 
-|**MetaOS Controller**| ![Status](https://img.shields.io/badge/status-in%20progress-yellow) | Point of remote management of all other daemons.
+|**MetaDaemon**| ![Status](https://img.shields.io/badge/status-in%20progress-yellow) | Point of remote management of all other daemons.
 |**Android/iOS Client**| ![Status](https://img.shields.io/badge/status-in%20progress-yellow) | A native mobile client for remote management, notifications, and deep integration with your phone.
 | **AI System Assistant** | ![Status](https://img.shields.io/badge/status-planned-lightgrey) | A personal assistant to simplify system interaction, manage tasks, and enhance security. 
 
@@ -44,14 +44,6 @@ The development and philosophy of MetaOS are structured around three distinct cl
 |**CI/CD Module** | ![Status](https://img.shields.io/badge/status-in%20progress-yellow)| A system service for monitoring your development pipelines directly from the OS. 
 |**D-Bus Integration** | ![Status](https://img.shields.io/badge/status-in%20progress-yellow)| Adherence to modern Linux standards for robust and efficient Inter-Process Communication.
 |**GPU Passthrough** | ![Status](https://img.shields.io/badge/status-planned-lightgrey) | Simplify your gaming and working experience.
----
-
-## Repositories ##
-
-* **MetaOS-Controller** - https://github.com/PHANTOM3114/MetaOS-Controller
-* **MetaHub** - https://github.com/PHANTOM3114/Metahub
-* **CI/CD Module** - https://github.com/PHANTOM3114/Ci-CD-Module
-* **D-Bus API's** - https://github.com/PHANTOM3114/MetaOS-dbus-api
 ---
 
 ## Roadmap ##
