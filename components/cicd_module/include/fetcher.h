@@ -8,6 +8,7 @@
 //Libs
 #include "httplib.h"
 #include "nlohmann/json.hpp"
+
 class ActionsDataFetcher {
 public:
     ActionsDataFetcher();
