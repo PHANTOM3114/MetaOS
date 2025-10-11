@@ -1,5 +1,51 @@
-filegroup(
-    name = "cicd_dbus_interface",
-    srcs = ["cicdDataFetch.xml"],
-    visibility = ["//visibility:public"],
+# metaos/components/cicd_module/BUILD.bazel
+
+load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library")
+
+genrule(
+    name = "generate_dbus_interfaces",
+    srcs = ["//protocols/dbus/metaos/cicd:cicd_dbus_interface"],
+    outs = [
+        "CiCdAdaptor.h",
+        "CiCdProxy.h",
+    ],
+    cmd = "/usr/bin/sdbus-c++-xml2cpp $(location //protocols/dbus/metaos/cicd:cicd_dbus_interface) --adaptor=$(location CiCdAdaptor.h) --proxy=$(location CiCdProxy.h)",
+)
+
+cc_library(
+    name = "generated_dbus_headers",
+    hdrs = [
+        ":CiCdAdaptor.h",
+        ":CiCdProxy.h",
+    ],
+    includes = ["."],
+)
+
+cc_library(
+    name = "cicd_module_lib",
+    srcs = glob(["src/**/*.cpp"]),
+    hdrs = glob(["include/**/*.h"]),
+    strip_include_prefix = "include",
+    copts = [
+        "-std=c++23",
+        "-DCPPHTTPLIB_OPENSSL_SUPPORT",
+    ],
+    deps = [
+        ":generated_dbus_headers",
+        "@cpp-httplib//:httplib",
+        "@libenvpp//:libenvpp",
+        "@nlohmann_json//:json",
+    ],
+    linkopts = [
+        "-lsdbus-c++",
+        "-lssl",
+        "-lcrypto",
+        "-lz",
+    ],
+)
+
+cc_binary(
+    name = "cicd_module",
+    srcs = ["main.cpp"],
+    deps = [":cicd_module_lib"],
 )

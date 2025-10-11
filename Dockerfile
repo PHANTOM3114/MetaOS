@@ -17,9 +17,12 @@ RUN apt-get update && apt-get install -y \
     libboost-dev \
     nlohmann-json3-dev \
     libsdbus-c++-dev \
+    libsdbus-c++-bin \
+    zlib1g-dev \
     qtbase5-dev \
     qtdeclarative5-dev \
     libqt5dbus5 \
+    dbus \
     && rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update && apt-get install -y curl build-essential && \
@@ -34,7 +37,5 @@ RUN BUILDTOOLS_VERSION=v6.3.3 && \
     chmod +x /usr/local/bin/buildifier
 
 RUN useradd -ms /bin/bash developer
-USER developer
-WORKDIR /home/developer/project
 
 WORKDIR /home/developer/project

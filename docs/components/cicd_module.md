@@ -1,3 +1,3 @@
 # Ci/CD Module
 
-## 🏛️ Architecture
+## Architecture
