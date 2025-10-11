@@ -1,32 +1,11 @@
-# Prerequisites
-*.d
+/bazel-*
+/.bazelproject
+/.bsp/
 
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
+/.idea/
+/.vscode/
+*.iml
 
-# Precompiled Headers
-*.gch
-*.pch
+.DS_Store
 
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
-
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
-# Executables
-*.exe
-*.out
-*.app
+.env

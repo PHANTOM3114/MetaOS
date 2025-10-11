@@ -1,0 +1,17 @@
+{
+    "name": "MetaOS Dev Environment",
+    "build": {
+        "dockerfile": "../Dockerfile"
+    },
+    "settings": {
+        "terminal.integrated.shell.linux": "/bin/bash"
+    },
+    "extensions": [
+        "ms-vscode.cpptools-extension-pack",
+        "bazelbuild.vscode-bazel"
+    ],
+    "runArgs": ["--init"],
+    "workspaceMount": "source=${localWorkspaceFolder},target=/home/developer/project,type=bind,consistency=cached",
+    "workspaceFolder": "/home/developer/project",
+    "remoteUser": "root"
+}

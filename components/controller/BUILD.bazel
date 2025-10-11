@@ -1,0 +1,25 @@
+# metaos/components/controller/BUILD.bazel
+
+load("@com_github_grpc_grpc//bazel:cc_grpc_library.bzl", "cc_grpc_library")
+load("@rules_cc//cc:defs.bzl", "cc_proto_library")
+
+cc_library(
+    name = "server_logic",
+    srcs = glob(["server/shell_controller/src/**/*.cc"]),
+    hdrs = glob(["server/shell_controller/include/**/*.hh"]),
+    strip_include_prefix = "server/shell_controller/include",
+    deps = [
+        "//protocols/grpc/metaos/controller:controller_cc_proto",
+        "//protocols/grpc/metaos/controller:controller_cc_grpc",
+        "@com_github_grpc_grpc//:grpc++",
+    ],
+)
+
+cc_binary(
+    name = "server",
+    srcs = ["server/main.cc"],
+    deps = [
+        ":server_logic",
+        "@com_github_grpc_grpc//:grpc++_reflection",
+    ],
+)
