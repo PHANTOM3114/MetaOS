@@ -1,0 +1,19 @@
+###############################################################################
+# Bazel now uses Bzlmod by default to manage external dependencies.
+# Please consider migrating your external dependencies from WORKSPACE to MODULE.bazel.
+#
+# For more details, please check https://github.com/bazelbuild/bazel/issues/18958
+###############################################################################
+
+# metaos/MODULE.bazel
+
+module(
+    name = "metaos",
+    version = "0.0.1",
+)
+
+bazel_dep(name = "protobuf", version = "28.0")
+bazel_dep(name = "grpc", version = "1.72.0")
+bazel_dep(name = "rules_proto", version = "5.3.0-21.7")
+bazel_dep(name = "rules_cc", version = "0.0.9")
+bazel_dep(name = "bazel_skylib", version = "1.7.1")

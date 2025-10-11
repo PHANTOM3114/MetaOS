@@ -1,0 +1,11 @@
+build --cxxopt="-std=c++23"
+build --host_cxxopt="-std=c++23"
+
+# Enable bzlmod
+common --enable_bzlmod
+
+# Optimization flags
+common --nolegacy_external_runfiles
+
+build --check_visibility=false
+build --spawn_strategy=local

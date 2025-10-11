@@ -1,0 +1,10 @@
+{
+    "directories": [
+        "components",
+        "protocols"
+    ],
+    "targets": [
+        "//components/...",
+        "//protocols/..."
+    ]
+}
