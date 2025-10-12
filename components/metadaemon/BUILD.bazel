@@ -1,0 +1,22 @@
+load("@rules_cc//cc:defs.bzl", "cc_library", "cc_binary")
+
+cc_library(
+    name = "server_logic",
+    srcs = glob(["server/shell_controller/src/**/*.cc"]),
+    hdrs = glob(["server/shell_controller/include/**/*.hh"]),
+    strip_include_prefix = "server/shell_controller/include",
+    deps = [
+        "//protocols/grpc/metaos/metadaemon:metadaemon_cc_proto",
+        "//protocols/grpc/metaos/metadaemon:metadaemon_cc_grpc",
+        "@grpc//:grpc++",
+    ],
+)
+
+cc_binary(
+    name = "server",
+    srcs = ["server/main.cc"],
+    deps = [
+        ":server_logic",
+        "@grpc//:grpc++_reflection",
+    ],
+)
