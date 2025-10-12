@@ -48,4 +48,5 @@ cc_binary(
     name = "cicd_module",
     srcs = ["main.cpp"],
     deps = [":cicd_module_lib"],
+    data = ["//:env_file"],
 )

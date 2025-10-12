@@ -32,13 +32,13 @@ int main() {
     } catch (const std::filesystem::filesystem_error& e) {
         std::cerr << "!!! DEBUG: Filesystem error: " << e.what() << std::endl;
     }
-    const char* serviceName = "org.metaos.CiCdService";
-    const char* objectPath = "/org/metaos/CiCd";
 
-    auto connection = sdbus::createSystemBusConnection();
-    DataSender sender(*connection, objectPath);
+    sdbus::ServiceName serviceName{"org.metaos.CiCdService"};
+    auto connection = sdbus::createSessionBusConnection(serviceName);
 
-    connection->requestName(serviceName);
+    sdbus::ObjectPath objectPath{"/org/metaos/CiCd"};
+    DataSender sender(*connection, std::move(objectPath));
+
     connection->enterEventLoop();
 
     return 0;
