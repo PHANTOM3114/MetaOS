@@ -3,14 +3,17 @@
     "build": {
         "dockerfile": "../Dockerfile"
     },
+
+    "postCreateCommand": "/etc/init.d/dbus start",
+
     "settings": {
-        "terminal.integrated.shell.linux": "/bin/bash"
+        "terminal.integrated.shell.linux": "/bin/bash",
     },
     "extensions": [
         "ms-vscode.cpptools-extension-pack",
         "bazelbuild.vscode-bazel"
     ],
-    "runArgs": ["--init"],
+    "runArgs": ["--init", "--privileged"],
     "workspaceMount": "source=${localWorkspaceFolder},target=/home/developer/project,type=bind,consistency=cached",
     "workspaceFolder": "/home/developer/project",
     "remoteUser": "root"
