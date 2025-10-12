@@ -28,9 +28,11 @@ RUN apt-get update && apt-get install -y \
 
 RUN apt-get update && apt-get install -y curl build-essential && \
     BAZEL_VERSION=8.4.1 && \
-    curl -fLO "https://github.com/bazelbuild/bazel/releases/download/${BAZEL_VERSION}/bazel-${BAZEL_VERSION}-linux-arm64" && \
-    chmod +x "bazel-${BAZEL_VERSION}-linux-arm64" && \
-    mv "bazel-${BAZEL_VERSION}-linux-arm64" /usr/local/bin/bazel && \
+    ARCH=$(dpkg --print-architecture) && \
+    if [ "$ARCH" = "arm64" ]; then BAZEL_ARCH="linux-arm64"; else BAZEL_ARCH="linux-x86_64"; fi && \
+    curl -fLO "https://github.com/bazelbuild/bazel/releases/download/${BAZEL_VERSION}/bazel-${BAZEL_VERSION}-${BAZEL_ARCH}" && \
+    chmod +x "bazel-${BAZEL_VERSION}-${BAZEL_ARCH}" && \
+    mv "bazel-${BAZEL_VERSION}-${BAZEL_ARCH}" /usr/local/bin/bazel && \
     rm -rf /var/lib/apt/lists/*
 
 RUN BUILDTOOLS_VERSION=v6.3.3 && \

@@ -19,14 +19,18 @@ jobs:
 
     - name: Build all targets with Bazel
       run: |
-        docker run --name metaos-ci-container \
-          -v "$(pwd)":/home/developer/project \
-          metaos-dev \
-          bazel build //...
+        docker run --rm
+        -v "$(pwd)":/home/developer/project
+        -w /home/developer/project
+        -u developer
+        metaos-dev
+        bazel build //...
 
     - name: Test all targets with Bazel
       run: |
-        docker run --name metaos-test-container \
-          -v "$(pwd)":/home/developer/project \
-          metaos-dev \
-          bazel test //...
+        docker run --rm
+        -v "$(pwd)":/home/developer/project
+        -w /home/developer/project
+        -u developer
+        metaos-dev
+        dbus-run-session -- bazel test //...
