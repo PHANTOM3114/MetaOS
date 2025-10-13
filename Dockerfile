@@ -26,6 +26,9 @@ RUN apt-get update && apt-get install -y \
     dbus \
     && rm -rf /var/lib/apt/lists/*
 
+ENV CC=clang
+ENV CXX=clang++
+
 RUN apt-get update && apt-get install -y curl build-essential && \
     BAZEL_VERSION=8.4.1 && \
     ARCH=$(dpkg --print-architecture) && \

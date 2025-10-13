@@ -32,7 +32,6 @@ docker exec \
   --workdir /home/developer/project \
   $CONTAINER_NAME bazel "$@"
 
-# 6. Прибираємо за собою
 echo "Stopping and removing container..."
 docker stop $CONTAINER_NAME >/dev/null
 docker rm $CONTAINER_NAME >/dev/null
