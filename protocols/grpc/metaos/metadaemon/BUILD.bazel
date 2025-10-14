@@ -4,16 +4,16 @@ load("@rules_proto//proto:defs.bzl", "proto_library")
 load("@rules_cc//cc:defs.bzl", "cc_proto_library")
 load("@grpc//bazel:cc_grpc_library.bzl", "cc_grpc_library")
 
+package(default_visibility = ["//visibility:public"])
+
 proto_library(
     name = "metadaemon_proto",
     srcs = ["system.proto"],
-    visibility = ["//visibility:public"],
 )
 
 cc_proto_library(
     name = "metadaemon_cc_proto",
     deps = [":metadaemon_proto"],
-    visibility = ["//visibility:public"],
 )
 
 cc_grpc_library(
@@ -21,5 +21,4 @@ cc_grpc_library(
     srcs = [":metadaemon_proto"],
     grpc_only = True,
     deps = [":metadaemon_cc_proto"],
-    visibility = ["//visibility:public"],
 )

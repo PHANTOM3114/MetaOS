@@ -10,7 +10,6 @@
 #include <sdbus-c++/IObject.h>
 #include <sdbus-c++/Types.h>
 
-#include "fetcher.h"
 #include "sender.h"
 
 int main() {
