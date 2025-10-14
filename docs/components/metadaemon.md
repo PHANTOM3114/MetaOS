@@ -19,9 +19,41 @@ The system is built on the interaction of two key components:
 | **VPN Controller** | ![Status](https://img.shields.io/badge/status-planned-lightgrey) | Manages VPN connections based on predefined scenarios
 |**AI Controller** | ![Status](https://img.shields.io/badge/status-planned-lightgrey)|Provides secure access to the system shell and command execution.
 
-## Roadmap
+## 🚀 Build and Run
 
-- **Q3 2025:** Completed the `Shell Controller` MVP (basic command execution via `forkpty` and `epoll`).
-- **Q4 2025:** Develop the `CI/CD Controller` MVP and a dashboard module for GitHub Actions.
+### For macOS & Linux
 
----
+#### Build
+
+To build the module, run the following command from the root of the repository:
+
+```bash
+# Using the Docker wrapper script (recommended for macOS)
+./bazel.sh build //components/metadaemon:server
+
+# For native Linux
+bazel build //components/metadaemon:server
+```
+### For Windows
+Note: All detailed instructions for building and running on Windows will be added in the future. 
+
+## IDE Integration (Autocomplete)
+
+To enable features like autocomplete and go-to-definition in your IDE (e.g., VSCode with clangd), you need to generate a compile_commands.json file. This file tells the IDE how to correctly interpret your C++ code, including all necessary paths and compiler flags.
+
+We have a pre-configured target to generate this file for all main components.
+
+## Generating compile_commands.json
+
+Run the following command from the root of the repository:
+
+### For macOS (recommended)
+```bash
+./bazel.sh run //:refresh_compile_commands
+```
+
+### For native Linux
+```bash
+bazel run //:refresh_compile_commands
+```
+> This will create a compile_commands.json file in your project root. Your IDE should automatically detect it and enable advanced code intelligence features.
