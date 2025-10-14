@@ -42,13 +42,13 @@ std::string ActionsDataFetcher::StartFetching() {
             { "Authorization", auth_header }
         };
 
-        auto res = cli.Get("/repos/PHANTOM3114/MetaOS-Controller/actions/runs", headers);
+        auto result = cli.Get("/repos/PHANTOM3114/MetaOS-Controller/actions/runs", headers);
 
-        if (res && res->status == 200) {
-            std::cout << "Status Code: " << res->status << std::endl;
-            if (!res->body.empty()) {
+        if (result && result->status == 200) {
+            std::cout << "Status Code: " << result->status << std::endl;
+            if (!result->body.empty()) {
                 try {
-                    nlohmann::json json = nlohmann::json::parse(res->body);
+                    nlohmann::json json = nlohmann::json::parse(result->body);
                     pipeline_info = json.dump(4);
                     std::cout << json.dump(4) << std::endl;
                 } catch (const nlohmann::json::exception& e) {
@@ -58,15 +58,15 @@ std::string ActionsDataFetcher::StartFetching() {
             }
             return pipeline_info;
         }
-        else if (res) {
-            std::cerr << "HTTP Error: Status " << res->status << std::endl;
-            if (!res->body.empty()) {
-                std::cerr << "Response: " << res->body << std::endl;
+        else if (result) {
+            std::cerr << "HTTP Error: Status " << result->status << std::endl;
+            if (!result->body.empty()) {
+                std::cerr << "Response: " << result->body << std::endl;
             }
             return "";
         }
         else {
-            auto err = res.error();
+            auto err = result.error();
             std::cerr << "HTTP request failed: " << httplib::to_string(err) << std::endl;
             return "";
         }
