@@ -1,9 +1,9 @@
+#include "include/providers/github_provider.h"
+
 //Libs
 #include <libenvpp/env.hpp>
 
-#include "fetcher.h"
-
-ActionsDataFetcher::ActionsDataFetcher()
+GitHubProvider::GitHubProvider()
 {
     std::ifstream env_file(".env");
     if (!env_file.is_open()) {
@@ -16,21 +16,21 @@ ActionsDataFetcher::ActionsDataFetcher()
     while (std::getline(env_file, line)) {
         std::string key = "GITHUB_TOKEN=";
         if (line.rfind(key, 0) == 0) {
-            github_token = line.substr(key.length());
+            github_token_ = line.substr(key.length());
             token_found = true;
             break;
         }
     }
     env_file.close();
 
-    if (!token_found || github_token.empty()) {
+    if (!token_found || github_token_.empty()) {
         throw std::runtime_error("Error: 'GITHUB_TOKEN' key not found or is empty in .env file.");
     }
 }
 
-std::string ActionsDataFetcher::StartFetching() {
+std::string GitHubProvider::FetchStatusAsJson() const {
     try {
-        std::string auth_header = "token " + github_token;
+        std::string auth_header = "token " + github_token_;
 
         httplib::Client cli("https://api.github.com");
         cli.set_connection_timeout(30, 0); // 30 seconds
@@ -49,7 +49,7 @@ std::string ActionsDataFetcher::StartFetching() {
             if (!result->body.empty()) {
                 try {
                     nlohmann::json json = nlohmann::json::parse(result->body);
-                    pipeline_info = json.dump(4);
+                    std::string pipeline_info = json.dump(4);
                     std::cout << json.dump(4) << std::endl;
                 } catch (const nlohmann::json::exception& e) {
                     std::cerr << "JSON parsing error: " << e.what() << std::endl;

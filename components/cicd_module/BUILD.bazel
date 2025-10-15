@@ -23,8 +23,15 @@ cc_library(
 
 cc_library(
     name = "cicd_module_lib",
-    srcs = glob(["src/**/*.cpp"]),
-    hdrs = glob(["include/**/*.h"]),
+    srcs = [
+        "src/adapters/cicd_dbus_adapter.cpp",
+        "src/providers/github_provider.cpp",
+    ],
+    hdrs = [
+        "include/adapters/cicd_dbus_adapter.h",
+        "include/providers/ipipeline_provider.h",
+        "include/providers/github_provider.h",
+    ],
     strip_include_prefix = "include",
     copts = [
         "-std=c++23",

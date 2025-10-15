@@ -1,5 +1,4 @@
 #pragma once
-
 //Standard Includes
 #include <fstream>
 #include <string>
@@ -9,12 +8,14 @@
 #include "httplib.h"
 #include "nlohmann/json.hpp"
 
-class ActionsDataFetcher {
+#include "ipipeline_provider.h"
+
+class GitHubProvider : public IPipelineProvider {
 public:
-    ActionsDataFetcher();
-    std::string StartFetching();
+    GitHubProvider();
+    std::string FetchStatusAsJson() const override;
 
 private:
-    std::string github_token; // make with vector in the future for storing multiple repositories
+    std::string github_token_;
     std::string pipeline_info;
 };
