@@ -4,14 +4,14 @@ Instead of hiding powerful tools, we provide a unified interface to control them
 
 **Table of contents**
 
-1.  [Philosophy: The "Why"](#-philosophy-the-why)
-2.  [Core Architecture: The "How"](#️-core-architecture-the-how)
-3.  [System Components: The "What"](#️-system-components-the-what)
+1.  [Philosophy](#-philosophy)
+2.  [Core Architecture](#️-core-architecture)
+3.  [System Components](#️-system-components)
 4.  [Getting Started](#-getting-started)
 5.  [Roadmap](#️-roadmap)
 
 ---
-## 🧠 Philosophy: The "Why"
+## 🧠 Philosophy
 
 The development and philosophy of MetaOS are structured around three distinct principles, embodied by their respective sectors:
 
@@ -22,7 +22,7 @@ The development and philosophy of MetaOS are structured around three distinct pr
 * ⚙️ **Utility Sector - Compatibility without Compromise**: We address the challenge of using software not natively ported to Linux. This principle is achieved by simplifying the use of existing tools, such as GPU Passthrough, to ensure you can work and play without limitations.
 
 ---
-## 🏗️ Core Architecture: The "How"
+## 🏗️ Core Architecture
 
 MetaOS is not a monolithic application but an ecosystem of interconnected, independent services that communicate via standardized protocols like **gRPC** and **D-Bus**.
 
@@ -35,7 +35,7 @@ The system is built on the interaction of two key component types:
 This service-oriented design ensures robustness, flexibility, and makes the entire ecosystem highly extensible.
 
 ---
-## 🛠️ System Components: The "What"
+## 🛠️ System Components
 
 ### 🛡️ Security Sector ###
 
