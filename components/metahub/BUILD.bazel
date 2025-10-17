@@ -1,0 +1,30 @@
+package(default_visibility = ["//visibility:public"])
+
+genrule(
+    name = "metahub",
+    srcs = glob([
+        "src/**/*.cpp",
+        "CMakeLists.txt",
+    ]),
+    outs = ["metahub_executable"],
+    cmd = """
+        SOURCE_DIR=$$(dirname $(location :CMakeLists.txt))
+        BUILD_DIR="cmake_build_dir"
+
+        mkdir -p $$BUILD_DIR
+        
+        QT_CXX_FLAGS="-I/usr/include/aarch64-linux-gnu/qt6 -I/usr/include/aarch64-linux-gnu/qt6/QtCore -I/usr/include/aarch64-linux-gnu/qt6/QtGui -I/usr/include/aarch64-linux-gnu/qt6/QtWidgets"
+        QT_LINKER_FLAGS="-L/usr/lib/aarch64-linux-gnu -lQt6Widgets -lQt6Gui -lQt6Core"
+        cmake \\
+            -S $$SOURCE_DIR \\
+            -B $$BUILD_DIR \\
+            -DCMAKE_INSTALL_PREFIX=./install \\
+            -DCMAKE_CXX_FLAGS="$$QT_CXX_FLAGS" \\
+            -DCMAKE_EXE_LINKER_FLAGS="$$QT_LINKER_FLAGS"
+
+        cmake --build $$BUILD_DIR
+
+        cp $$BUILD_DIR/MetaHub $(location metahub_executable)
+    """,
+    executable = True,
+)
