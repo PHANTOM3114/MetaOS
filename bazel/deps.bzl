@@ -1,7 +1,7 @@
 # bazel/deps.bzl
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
-def _non_module_deps_impl(_ctx):
+def _fetch_fmt():
     http_archive(
         name = "fmt",
         build_file_content = """
@@ -18,6 +18,11 @@ cc_library(
         urls = ["https://github.com/fmtlib/fmt/archive/refs/tags/8.1.1.zip"],
     )
 
+fmt_dep = module_extension(
+    implementation = _fetch_fmt_impl,
+)
+
+def _fetch_libenvpp():
     http_archive(
         name = "libenvpp",
         build_file_content = """
@@ -34,21 +39,6 @@ cc_library(
         urls = ["https://github.com/ph3at/libenvpp/archive/refs/tags/v1.5.1.zip"],
     )
 
-    http_archive(
-        name = "nlohmann_json",
-        build_file_content = """
-load("@rules_cc//cc:defs.bzl", "cc_library")
-cc_library(
-    name = "json",
-    hdrs = ["single_include/nlohmann/json.hpp"],
-    strip_include_prefix = "single_include",
-    visibility = ["//visibility:public"],
-)""",
-        sha256 = "a32a67e3b1c67825b448a972a91f4a5a51c91104e747053ffca3264420a7b45c",
-        strip_prefix = "json-3.11.3",
-        urls = ["https://github.com/nlohmann/json/archive/refs/tags/v3.11.3.zip"],
-    )
-
-non_module_deps = module_extension(
-    implementation = _non_module_deps_impl,
+libenvpp_dep = module_extension(
+    implementation = _fetch_libenvpp_impl,
 )

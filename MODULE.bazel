@@ -20,5 +20,8 @@ git_override(
     commit = "abb61a688167623088f8768cc9264798df6a9d10",
 )
 
-non_module_deps = use_extension("//bazel:deps.bzl", "non_module_deps")
-use_repo(non_module_deps, "libenvpp", "fmt")
+fmt_dep = use_extension("//bazel:deps.bzl", "fmt_dep")
+use_repo(fmt_dep, "fmt")
+
+libenvpp_dep = use_extension("//bazel:deps.bzl", "libenvpp_dep")
+use_repo(libenvpp_dep, "libenvpp")
