@@ -1,7 +1,7 @@
 # bazel/deps.bzl
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
-def _fetch_fmt():
+def _fetch_fmt(_ctx):
     http_archive(
         name = "fmt",
         build_file_content = """
@@ -19,10 +19,10 @@ cc_library(
     )
 
 fmt_dep = module_extension(
-    implementation = _fetch_fmt_impl,
+    implementation = _fetch_fmt,
 )
 
-def _fetch_libenvpp():
+def _fetch_libenvpp(_ctx):
     http_archive(
         name = "libenvpp",
         build_file_content = """
@@ -40,5 +40,5 @@ cc_library(
     )
 
 libenvpp_dep = module_extension(
-    implementation = _fetch_libenvpp_impl,
+    implementation = _fetch_libenvpp,
 )
