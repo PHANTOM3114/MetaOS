@@ -22,13 +22,27 @@ git_override(
 )
 
 RUST_EDITION = "2024"
-RUST_VERSION = "1.85.0"
+RUST_VERSION = "1.88.0"
+
+crate = use_extension("@rules_rust//crate_universe:extensions.bzl", "crate")
+
+crate.spec(package = "tokio", features = ["full"] ,version = "1.48.0")
+crate.spec(package = "matrix-sdk" ,version = "0.14.0")
+crate.spec(package = "anyhow" ,version = "1.0")
+crate.spec(package = "tracing-subscriber" ,version = "0.3")
+crate.spec(package = "tracing" ,version = "0.1.41")
+crate.spec(package = "dotenv" ,version = "0.15.0")
+
+crate.from_specs()
+
+use_repo(crate, "crates")
 
 rust = use_extension("@rules_rust//rust:extensions.bzl", "rust")
 rust.toolchain(
     edition = RUST_EDITION,
     versions = [RUST_VERSION],
 )
+
 use_repo(rust, "rust_toolchains")
 register_toolchains("@rust_toolchains//:all")
 
