@@ -1,6 +1,6 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
-import QtGraphicalEffects 1.15
+import Qt5Compat.GraphicalEffects
 import MetaOS.Theme 1.0
 
 ApplicationWindow {
@@ -12,17 +12,16 @@ ApplicationWindow {
     flags: Qt.Window
     color: "transparent"
 
-    background: Image {
-        id: wallpaperImage
-        source: "qrc:/wallpaper.jpg"
-        sourceSize: Qt.size(rootWindow.width, rootWindow.height)
+    // background: Image {
+    //     id: wallpaperImage
+    //     sourceSize: Qt.size(rootWindow.width, rootWindow.height)
 
-        GaussianBlur {
-            anchors.fill: parent
-            source: wallpaperImage
-            radius: 16
-        }
-    }
+    //     GaussianBlur {
+    //         anchors.fill: parent
+    //         source: wallpaperImage
+    //         radius: 16
+    //     }
+    // }
 
     SplitView {
         id: splitView

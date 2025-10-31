@@ -10,8 +10,3 @@ anyhow = "1.0"
 tracing-subscriber = "0.3"
 tracing = "0.1.41"
 dotenv = "0.15.0"
-
-[package.metadata.raze]
-workspace_path = "//components/matrix"
-genmode = "Remote"
-output_buildfile_suffix = "BUILD.bazel"

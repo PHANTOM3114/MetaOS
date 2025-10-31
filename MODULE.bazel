@@ -21,6 +21,7 @@ git_override(
     commit = "abb61a688167623088f8768cc9264798df6a9d10",
 )
 
+# Rust configuration
 RUST_EDITION = "2024"
 RUST_VERSION = "1.88.0"
 
@@ -46,6 +47,7 @@ rust.toolchain(
 use_repo(rust, "rust_toolchains")
 register_toolchains("@rust_toolchains//:all")
 
+# Additional dependencies
 fmt_dep = use_extension("//bazel:deps.bzl", "fmt_dep")
 use_repo(fmt_dep, "fmt")
 

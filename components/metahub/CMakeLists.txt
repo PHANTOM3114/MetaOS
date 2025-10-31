@@ -7,7 +7,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-find_package(Qt6 REQUIRED COMPONENTS Core Gui Qml Quick)
+find_package(Qt6 REQUIRED COMPONENTS Core Gui Qml Quick DBus)
 
 add_executable(MetaHub
         src/main.cpp
@@ -19,6 +19,7 @@ target_link_libraries(MetaHub PRIVATE
     Qt6::Gui
     Qt6::Qml
     Qt6::Quick
+    Qt6::DBus
 )
 
 install(TARGETS MetaHub
