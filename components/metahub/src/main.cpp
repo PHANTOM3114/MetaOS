@@ -1,13 +1,19 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
-#include <QDBusConnection>
-#include <QDBusInterface>
-#include <QQmlContext>
+#include <QDBusConnection>      
+#include <QDBusInterface>       
+#include <QQmlContext>          
+
+#include "cicd_view_model.hpp" 
 
 int main(int argc, char *argv[]) {
     QGuiApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
+
+    CiCDViewModel cicd_view_model;
+
+    engine.rootContext()->setContextProperty("CiCDViewModel", &cicd_view_model);
 
     qmlRegisterSingletonType(QUrl("qrc:/Theme.qml"), "MetaOS.Theme", 1, 0, "Theme");
 

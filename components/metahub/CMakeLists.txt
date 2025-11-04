@@ -11,7 +11,13 @@ find_package(Qt6 REQUIRED COMPONENTS Core Gui Qml Quick DBus)
 
 add_executable(MetaHub
         src/main.cpp
+        src/cicd_view_model/include/cicd_view_model.hpp
+        src/cicd_view_model/src/cicd_view_model.cpp
         qml/qml.qrc
+)
+
+target_include_directories(MetaHub PRIVATE
+    src/cicd_view_model/include
 )
 
 target_link_libraries(MetaHub PRIVATE

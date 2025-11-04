@@ -1,7 +1,6 @@
 #pragma once
 
 //Standard Includes
-#include <iostream>
 #include <memory>
 #include <vector>
 

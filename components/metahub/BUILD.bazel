@@ -4,7 +4,9 @@ genrule(
     name = "metahub",
     srcs = glob([
         "src/**/*.cpp",
+        "src/**/*.hpp",
         "CMakeLists.txt",
+        "qml/**/*",
     ]),
     outs = ["metahub_executable"],
     cmd = """

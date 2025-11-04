@@ -106,10 +106,27 @@ ApplicationWindow {
             Button {
                 id : fetchButton
                 text : "Fetch"
-                visible: infoLabel.text === "Selected: CI/CD Module"
+                visible: menuListView.currentIndex == 0 
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.top: infoLabel.bottom
                 anchors.topMargin: 20
+
+                onClicked: {
+                    infoLabel.text = "Fetching data via D-Bus..."
+                    CiCDViewModel.fetchCicdData()
+                }
+            }
+
+            Connections {
+                target: CiCDViewModel 
+
+                function onCicdDataReceived(data) {
+                    infoLabel.text = "D-Bus OK: " + data
+                }
+
+                function onCicdErrorReceived(error) {
+                    infoLabel.text = "D-Bus Error: " + error
+                }
             }
         }
     }

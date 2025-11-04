@@ -29,6 +29,9 @@ GitHubProvider::GitHubProvider()
 }
 
 std::string GitHubProvider::FetchStatusAsJson() const {
+
+    std::string pipeline_info = "";
+
     try {
         std::string auth_header = "token " + github_token_;
 
@@ -49,7 +52,7 @@ std::string GitHubProvider::FetchStatusAsJson() const {
             if (!result->body.empty()) {
                 try {
                     nlohmann::json json = nlohmann::json::parse(result->body);
-                    std::string pipeline_info = json.dump(4);
+                    pipeline_info = json.dump(4);
                     std::cout << json.dump(4) << std::endl;
                 } catch (const nlohmann::json::exception& e) {
                     std::cerr << "JSON parsing error: " << e.what() << std::endl;
