@@ -53,7 +53,7 @@ This service-oriented design ensures robustness, flexibility, and makes the enti
 |---|---|---|
 |**Metahub** | ![Status](https://img.shields.io/badge/status-in%20progress-yellow)|The central Qt-based desktop application for managing and interacting with all system components. 
 |**MetaDaemon**| ![Status](https://img.shields.io/badge/status-in%20progress-yellow) | Point of remote management of all other daemons.
-|**Android/iOS Client**| ![Status](https://img.shields.io/badge/status-in%20progress-yellow) | A native mobile client for remote management, notifications, and deep integration with your phone.
+|**Android Client**| ![Status](https://img.shields.io/badge/status-in%20progress-yellow) | A native mobile client for remote management, notifications, and deep integration with your phone.
 
 ### ⚙️ Utility Sector ###
 
