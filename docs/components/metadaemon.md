@@ -15,9 +15,8 @@ The system is built on the interaction of two key components:
 |---|---|---|
 |**Shell Controller** | ![Status](https://img.shields.io/badge/status-completed-green)|Provides secure access to the system shell and command execution.
 |**CI/CD Controller**| ![Status](https://img.shields.io/badge/status-planned-lightgrey) | Enables monitoring and management of pipelines
-|**Cloud Controller**| ![Status](https://img.shields.io/badge/status-planned-lightgrey) | Integration with cloud services and providers for remote access.
+|**Gateway Controller**| ![Status](https://img.shields.io/badge/status-planned-lightgrey) | Integration with cloud services and providers for remote access.
 | **VPN Controller** | ![Status](https://img.shields.io/badge/status-planned-lightgrey) | Manages VPN connections based on predefined scenarios
-|**AI Controller** | ![Status](https://img.shields.io/badge/status-planned-lightgrey)|Provides secure access to the system shell and command execution.
 
 ## 🚀 Build and Run
 
