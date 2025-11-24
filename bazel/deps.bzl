@@ -1,6 +1,26 @@
 # bazel/deps.bzl
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
+def _fetch_sdbus_cpp(_ctx):
+    http_archive(
+        name = "sdbus-cpp",
+        build_file_content = """
+load("@rules_cc//cc:defs.bzl", "cc_library")
+cc_library(
+    name = "sdbus-cpp",
+    hdrs = glob(["include/sdbus-c++/*.h"]),
+    strip_include_prefix = "include",
+    visibility = ["//visibility:public"],
+)""",
+        sha256 = "28b78822cfc5fbec4bd9906168493e9985f586ed",
+        strip_prefix = "sdbus-cpp-2.2.1",
+        urls = ["https://github.com/Kistler-Group/sdbus-cpp/releases/tag/v2.2.1.zip"],
+    )
+
+sdbus_cpp_dep = module_extension(
+    implementation = _fetch_sdbus_cpp,
+)
+
 def _fetch_fmt(_ctx):
     http_archive(
         name = "fmt",

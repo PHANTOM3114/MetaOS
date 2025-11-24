@@ -60,3 +60,6 @@ use_repo(fmt_dep, "fmt")
 
 libenvpp_dep = use_extension("//bazel:deps.bzl", "libenvpp_dep")
 use_repo(libenvpp_dep, "libenvpp")
+
+sdbus_cpp_dep = use_extension("//bazel:deps.bzl", "sdbus_cpp_dep")
+use_repo(sdbus_cpp_dep, "sdbus-cpp")
