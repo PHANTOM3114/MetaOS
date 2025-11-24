@@ -74,7 +74,7 @@ The project's development environment is currently undergoing refinement to ensu
 
 1.  **Install Bazel:** Please follow the [**official Bazel installation guide**](https://bazel.build/install) for the most up-to-date instructions for your platform. This ensures you are using a compatible and correctly configured version.
 
-2.  **Install System Dependencies:** A complete list of required system libraries (like `g++`, `libsdbus-c++-dev`, etc.) can be found in the project's `Dockerfile`. This file serves as the definitive source for setting up a native Linux environment.
+2.  **Install System Dependencies:** A complete list of required system libraries (like `clang++`, `libsdbus-c++-dev`, etc.) can be found in the project's `Dockerfile`. This file serves as the definitive source for setting up a native Linux environment.
 
 3.  **For non-Linux platforms (macOS / Windows):** The officially supported method is to use an isolated development container.
     **(Placeholder: A detailed, validated guide for setting up and using the recommended development environment will be added here once the configuration is finalized).**
@@ -85,5 +85,6 @@ The project's development environment is currently undergoing refinement to ensu
 ---
 ## 🗺️ Roadmap
 
-* **Autumn 2025** - MVP of Metahub with CI/CD Module
-* **Winter 2025-2026** - MVP of VPN, and yaml parser
+- [x] **Autumn 2025** - MVP of Metahub with CI/CD Module
+- [ ] **Winter 2025-2026** - MVP of VPN, and yaml parser
+- [ ] **Spring 2026** - MVP of Matrix Module
