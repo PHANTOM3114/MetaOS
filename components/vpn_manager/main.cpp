@@ -9,22 +9,24 @@ int main() {
 
     auto connection = sdbus::createSystemBusConnection();
 
-    sdbus::ServiceName destination{"org.freedesktop.NetworkManager"};
-    sdbus::ObjectPath objectPath{"/org/freedesktop/NetworkManager/Settings"};
+    sdbus::ServiceName networkManagerDestination{"org.freedesktop.NetworkManager"};
+    sdbus::ObjectPath networkManagerObjectPath{"/org/freedesktop/NetworkManager"};
 
-    auto networkManagerProxy = sdbus::createProxy(std::move(connection), std::move(destination), std::move(objectPath));
+    auto networkManagerProxy = sdbus::createProxy(*connection, networkManagerDestination, std::move(networkManagerObjectPath));
 
-    sdbus::InterfaceName interfaceName{"org.freedesktop.NetworkManager.Settings"};
+    sdbus::InterfaceName interfaceName{"org.freedesktop.NetworkManager"};
 
-    sdbus::MethodName getListConnections{"ListConnections"};
-    auto method = networkManagerProxy->createMethodCall(interfaceName, getListConnections);
-    auto reply = networkManagerProxy->callMethod(method);
+    auto activeConnections = networkManagerProxy->getProperty("ActiveConnections").onInterface(interfaceName);
+    auto activeConnectionsList = activeConnections.get<std::vector<sdbus::ObjectPath>>();
 
-    std::vector<sdbus::ObjectPath> result;
-    reply >> result;
+    if (!activeConnectionsList.empty()) {
+        sdbus::ObjectPath activeConnectionObjectPath{activeConnectionsList.at(0)};
+        auto currentConnectionProxy = sdbus::createProxy(*connection, networkManagerDestination, std::move(activeConnectionObjectPath));
 
-    for (auto elements : result) {
-        std::cout << elements << std::endl;
+        auto currentConnectionInfo = currentConnectionProxy->getProperty("Vpn").onInterface("org.freedesktop.NetworkManager.Connection.Active");
+        auto state = currentConnectionInfo.get<bool>();
+
+        std::cout << state << std::endl;
     }
 
     return 0;
