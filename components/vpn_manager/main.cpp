@@ -24,9 +24,9 @@ int main() {
         auto currentConnectionProxy = sdbus::createProxy(*connection, networkManagerDestination, std::move(activeConnectionObjectPath));
 
         auto currentConnectionInfo = currentConnectionProxy->getProperty("Vpn").onInterface("org.freedesktop.NetworkManager.Connection.Active");
-        auto state = currentConnectionInfo.get<bool>();
+        auto isVpn = currentConnectionInfo.get<bool>();
 
-        std::cout << state << std::endl;
+        std::cout << isVpn << std::endl;
     }
 
     return 0;
