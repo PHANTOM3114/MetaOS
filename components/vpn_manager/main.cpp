@@ -16,17 +16,28 @@ int main() {
 
     sdbus::InterfaceName interfaceName{"org.freedesktop.NetworkManager"};
 
-    auto activeConnections = networkManagerProxy->getProperty("ActiveConnections").onInterface(interfaceName);
-    auto activeConnectionsList = activeConnections.get<std::vector<sdbus::ObjectPath>>();
+    sdbus::MethodName getDevices{"GetDevices"};
+    auto method = networkManagerProxy->createMethodCall(interfaceName, getDevices);
+    auto reply = networkManagerProxy->callMethod(method);
 
-    if (!activeConnectionsList.empty()) {
-        sdbus::ObjectPath activeConnectionObjectPath{activeConnectionsList.at(0)};
-        auto currentConnectionProxy = sdbus::createProxy(*connection, networkManagerDestination, std::move(activeConnectionObjectPath));
+    std::vector<sdbus::ObjectPath> devices;
+    reply >> devices;
 
-        auto currentConnectionInfo = currentConnectionProxy->getProperty("Vpn").onInterface("org.freedesktop.NetworkManager.Connection.Active");
-        auto isVpn = currentConnectionInfo.get<bool>();
+    if (!devices.empty()) {
 
-        std::cout << isVpn << std::endl;
+        for (auto& device : devices) {
+            sdbus::ObjectPath devicesObjectPath{device};
+            auto currentConnectionProxy = sdbus::createProxy(*connection, networkManagerDestination, std::move(devicesObjectPath));
+
+            auto currentConnectionInfo = currentConnectionProxy->getProperty("DeviceType").onInterface("org.freedesktop.NetworkManager.Device");
+            auto deviceType = currentConnectionInfo.get<unsigned int>();
+
+            if (deviceType == 1) {
+                std::cout << "Ethernet" << std::endl;
+            } else if (deviceType == 2) {
+                std::cout << "Wifi" << std::endl;
+            }
+        }
     }
 
     return 0;
