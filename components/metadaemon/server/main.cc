@@ -4,8 +4,8 @@
 #include <string>
 
 //gRPC includes
-#include <grpcpp/grpcpp.h>
 #include <grpcpp/ext/proto_server_reflection_plugin.h>
+#include <grpcpp/grpcpp.h>
 #include "protocols/grpc/metaos/metadaemon/system.grpc.pb.h"
 
 #include "shell_controller.hh"
@@ -34,8 +34,7 @@ int main(int argc, char** argv) {
     if (!server) {
         std::cerr << "Failed to start server" << std::endl;
         return -1;
-    }
-    else {
+    } else {
         std::cout << "Server started on port 50051" << std::endl;
         server->Wait();
     }
