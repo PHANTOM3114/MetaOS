@@ -1,23 +1,21 @@
 //Standart Includes
 #include <fcntl.h>
-#include <unistd.h>
 #include <sys/epoll.h>
 #include <sys/wait.h>
 #include <termios.h>
+#include <unistd.h>
 
 #include "shell_controller.hh"
 
-namespace MetaOS::Controller::Shell
-{
-    ShellReactor::ShellReactor(int master_fd, pid_t pid, OutputCallback output_callback)
-    : master_fd_(master_fd), pid_(pid), output_callback_(std::move(output_callback))
-{
+namespace MetaOS::Controller::Shell {
+ShellReactor::ShellReactor(int master_fd, pid_t pid, OutputCallback output_callback)
+    : master_fd_(master_fd), pid_(pid), output_callback_(std::move(output_callback)) {
     epoll_fd_ = epoll_create1(0);
     if (epoll_fd_ == -1) {
         throw std::runtime_error("Failed to create epoll instance: " + std::string(strerror(errno)));
     }
 
-    pid_ = forkpty(&master_fd_,nullptr, nullptr, nullptr);
+    pid_ = forkpty(&master_fd_, nullptr, nullptr, nullptr);
     if (pid_ == -1) {
         close(epoll_fd_);
         throw std::runtime_error("Failed to forkpty: " + std::string(strerror(errno)));
@@ -59,14 +57,12 @@ namespace MetaOS::Controller::Shell
                             shell_output_queue_.push("");
                             data_notifier.notify_one();
                         }
-                    }
-                    else if (count == 0) {
+                    } else if (count == 0) {
                         std::unique_lock<std::mutex> lock(queue_mutex_);
                         shell_output_queue_.push("");
                         data_notifier.notify_one();
                         break;
-                    }
-                    else {
+                    } else {
                         std::string shell_data(buffer, count);
                         {
                             std::unique_lock<std::mutex> lock(queue_mutex_);
@@ -87,8 +83,7 @@ void ShellReactor::OnReadDone(bool ok) {
         std::string shell_prompt = request_.command();
         write(master_fd_, shell_prompt.c_str(), shell_prompt.length());
         StartRead(&request_);
-    }
-    else {
+    } else {
         Finish(grpc::Status::OK);
     }
 }
@@ -98,8 +93,7 @@ void ShellReactor::OnWriteDone(bool ok) {
 
     if (ok) {
         DoNextWrite();
-    }
-    else {
+    } else {
         OnDone();
         Finish(grpc::Status::CANCELLED);
     }
@@ -133,4 +127,4 @@ void ShellReactor::DoNextWrite() {
         }
     }
 }
-}
+}  // namespace MetaOS::Controller::Shell
