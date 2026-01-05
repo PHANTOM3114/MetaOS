@@ -2,12 +2,14 @@ FROM debian:trixie
 
 ENV TZ=Europe/Berlin
 ENV DEBIAN_FRONTEND=noninteractive
+
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN apt-get update && apt-get install -y \
     sudo \
     gnupg \
     curl \
+    ca-certificates \
     unzip \
     git \
     build-essential \
@@ -15,33 +17,38 @@ RUN apt-get update && apt-get install -y \
     pkg-config \
     clang \
     lld \
-    libboost-dev \
+    zlib1g-dev \
+    qt6-base-dev \
+    qt6-declarative-dev \
+    qt6-tools-dev \
+    qt6-tools-dev-tools \
+    libqt6dbus6 \
     nlohmann-json3-dev \
+    dbus \
+    cmake \
     libsdbus-c++-dev \
     libsdbus-c++-bin \
-    zlib1g-dev \
-    qtbase5-dev \
-    qtdeclarative5-dev \
-    libqt5dbus5 \
-    dbus \
+    libgrpc++-dev \
+    libprotobuf-dev \
+    libsqlite3-dev \
+    libnl-3-dev \
+    libnl-genl-3-dev \
+    protobuf-compiler-grpc \
+    protobuf-compiler \
     && rm -rf /var/lib/apt/lists/*
 
 ENV CC=clang
 ENV CXX=clang++
 
-RUN apt-get update && apt-get install -y curl build-essential && \
-    BAZEL_VERSION=8.4.1 && \
-    ARCH=$(dpkg --print-architecture) && \
-    if [ "$ARCH" = "arm64" ]; then BAZEL_ARCH="linux-arm64"; else BAZEL_ARCH="linux-x86_64"; fi && \
-    curl -fLO "https://github.com/bazelbuild/bazel/releases/download/${BAZEL_VERSION}/bazel-${BAZEL_VERSION}-${BAZEL_ARCH}" && \
-    chmod +x "bazel-${BAZEL_VERSION}-${BAZEL_ARCH}" && \
-    mv "bazel-${BAZEL_VERSION}-${BAZEL_ARCH}" /usr/local/bin/bazel && \
-    rm -rf /var/lib/apt/lists/*
+RUN useradd -m -s /bin/bash metauser && echo "metauser:password" | chpasswd
+RUN echo "metauser ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-RUN BUILDTOOLS_VERSION=v6.3.3 && \
-    curl -fLo /usr/local/bin/buildifier "https://github.com/bazelbuild/buildtools/releases/download/${BUILDTOOLS_VERSION}/buildifier-linux-arm64" && \
-    chmod +x /usr/local/bin/buildifier
+USER metauser
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+USER root
+RUN ln -s /home/metauser/.cargo/bin/rustc /usr/local/bin/rustc && \
+    ln -s /home/metauser/.cargo/bin/cargo /usr/local/bin/cargo && \
+    ln -s /home/metauser/.cargo/bin/rustup /usr/local/bin/rustup
 
-RUN useradd -ms /bin/bash developer
-
-WORKDIR /home/developer/project
+USER metauser
+WORKDIR /home/metauser
