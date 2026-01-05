@@ -64,12 +64,21 @@ async fn login_and_send_to_room(
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
-    use dotenv::dotenv;
-    dotenv().ok();
-
     tracing_subscriber::fmt()
         .with_max_level(tracing::Level::INFO)
         .init();
+
+    let exe_path = std::env::current_exe()?;
+    let exe_dir = exe_path.parent().ok_or(anyhow!("Failed to get binary directory"))?;
+    let env_path = exe_dir.join(".env");
+
+    info!("Looking for .env file at: {:?}", env_path);
+
+    if let Err(e) = dotenv::from_path(&env_path) {
+        info!("Warning: .env file not found or not readable at {:?}. Error: {}", env_path, e);
+    } else {
+        info!("Successfully loaded .env file");
+    }
 
     let homeserver_url = env::var("MATRIX_HOMESERVER")?;
     let username = env::var("MATRIX_BOT_USERNAME")?;
