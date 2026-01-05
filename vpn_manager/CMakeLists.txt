@@ -1,0 +1,11 @@
+find_package(PkgConfig REQUIRED)
+find_package(sdbus-c++ REQUIRED)
+
+pkg_check_modules(LIBNL REQUIRED IMPORTED_TARGET libnl-3.0 libnl-genl-3.0)
+
+add_executable(vpn_manager main.cpp)
+
+target_link_libraries(vpn_manager PRIVATE 
+    PkgConfig::LIBNL 
+    SDBusCpp::sdbus-c++
+)
