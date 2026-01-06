@@ -52,3 +52,5 @@ RUN ln -s /home/metauser/.cargo/bin/rustc /usr/local/bin/rustc && \
 
 USER metauser
 WORKDIR /home/metauser
+
+COPY --chown=metauser:metauser . .

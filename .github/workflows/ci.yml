@@ -19,4 +19,4 @@ jobs:
 
     - name: Build all targets with CMake
       run: |
-        cmake -B build && cd build && make
+        docker run --rm metaos-dev /bin/bash -c "cmake -B build && cmake --build build"
