@@ -17,10 +17,6 @@ jobs:
     - name: Build Docker Image
       run: docker build -t metaos-dev .
 
-    - name: Build all targets with Bazel
+    - name: Build all targets with CMake
       run: |
-        echo "Placeholder for build step"
-
-    - name: Test all targets with Bazel
-      run: |
-        echo "Placeholder for test step"
+        cmake -B build && cd build && make
