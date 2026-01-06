@@ -58,19 +58,16 @@ async fn main() -> anyhow::Result<()> {
     info!("Connecting to {}", homeserver_url);
     let client = Client::builder().homeserver_url(homeserver_url).build().await?;
 
-    // Логін
     client.matrix_auth()
         .login_username(&username, &password)
         .initial_device_display_name("rust-bot-clean")
         .await?;
     info!("Logged in as {}", client.user_id().unwrap());
 
-    // СИНХРОНІЗАЦІЯ (Критично важливо!)
     info!("Syncing...");
     client.sync_once(Default::default()).await?;
     info!("Synced!");
 
-    // Виклик чистої функції
     if let Err(e) = send_hello_to_room(&client, &target_room_id).await {
         error!("Fatal error: {:?}", e);
         exit(1);
