@@ -4,17 +4,16 @@
         "dockerfile": "../Dockerfile"
     },
 
-    "postCreateCommand": "/etc/init.d/dbus start",
+    "postCreateCommand": "sudo /etc/init.d/dbus start && sudo chmod 777 /run/dbus/system_bus_socket",
 
     "settings": {
-        "terminal.integrated.shell.linux": "/bin/bash",
+        "terminal.integrated.shell.linux": "/bin/bash"
     },
-    "extensions": [
-        "ms-vscode.cpptools-extension-pack",
-        "bazelbuild.vscode-bazel"
-    ],
+    
     "runArgs": ["--init", "--privileged"],
-    "workspaceMount": "source=${localWorkspaceFolder},target=/home/developer/project,type=bind,consistency=cached",
-    "workspaceFolder": "/home/developer/project",
-    "remoteUser": "root"
+
+    "workspaceMount": "source=${localWorkspaceFolder},target=/home/metauser/MetaOS,type=bind,consistency=cached",
+    "workspaceFolder": "/home/metauser/MetaOS",
+
+    "remoteUser": "metauser"
 }

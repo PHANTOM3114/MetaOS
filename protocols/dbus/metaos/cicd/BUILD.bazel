@@ -1,5 +1,0 @@
-filegroup(
-    name = "cicd_dbus_interface",
-    srcs = ["cicdDataFetch.xml"],
-    visibility = ["//visibility:public"],
-)

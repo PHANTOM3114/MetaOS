@@ -1,9 +1,5 @@
-# Bazel build outputs
-bazel-bin/
-bazel-genfiles/
-bazel-out/
-bazel-testlogs/
-MODULE.bazel.lock
+build/
+.cache/
 
 # User-specific files
 .DS_Store
