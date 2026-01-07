@@ -18,7 +18,7 @@ async fn send_hello_to_room(client: &Client, room_id_str: &str) -> anyhow::Resul
     if let Some(room) = client.get_room(&room_id) {
         if room.state() == RoomState::Joined {
             info!("Room found. Sending message...");
-            let content = RoomMessageEventContent::text_plain("Hello! Refactored bot is here.");
+            let content = RoomMessageEventContent::text_plain("Hello!");
             
             match room.send(content).await {
                 Ok(response) => info!("Success! Event ID: {}", response.event_id),
