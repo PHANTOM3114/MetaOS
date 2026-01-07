@@ -72,24 +72,23 @@ This service-oriented design ensures robustness, flexibility, and makes the enti
 
 The project's development environment is currently undergoing refinement to ensure a stable and straightforward setup process. To avoid providing potentially outdated instructions, we ask that you refer to the official documentation for setting up the core dependencies.
 
-1.  **Install Bazel:** Please follow the [**official Bazel installation guide**](https://bazel.build/install) for the most up-to-date instructions for your platform. This ensures you are using a compatible and correctly configured version.
-
-2.  **Install System Dependencies:** 
+1. **Install System Dependencies:** 
 
 Debian/Ubuntu:
->   
+    
     sudo apt update && sudo apt install -y build-essential cmake git clang lld pkg-config libssl-dev zlib1g-dev libsqlite3-dev nlohmann-json3-dev qt6-base-dev qt6-declarative-dev qt6-tools-dev libsdbus-c++-dev libgrpc++-dev libprotobuf-dev libnl-3-dev libnl-genl-3-dev protobuf-compiler-grpc
   
 If you are on the other distro, package names may be different
 
 3.  **For non-Linux platforms (macOS / Windows):** The officially supported method is to use an isolated development container.
-    **(Placeholder: A detailed, validated guide for setting up and using the recommended development environment will be added here once the configuration is finalized).**
+    
+    (Placeholder: A detailed, validated guide for setting up and using the recommended development environment will be added here once the configuration is finalized).
 
 ### Building and Running
 
 Build all tagrets:
 
-> cmake -B build && cmake --build build
+    cmake -B build && cmake --build build
 
 > More detailed build and run instructions for each individual component can be found in their respective documentation files within the `/docs` directory.
 ---
