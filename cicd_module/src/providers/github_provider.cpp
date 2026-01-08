@@ -3,6 +3,7 @@
 
 //Libs
 #include <libenvpp/env.hpp>
+#include <string>
 
 GitHubProvider::GitHubProvider() {
     std::ifstream env_file(".env");
@@ -67,6 +68,10 @@ std::string GitHubProvider::FetchStatusAsJson() const {
                     jsonfile.open("file");
                     jsonfile << filtered_json;
                     jsonfile.close();
+
+                    pipeline_info = filtered_json.dump(4);
+
+                    return pipeline_info;
                 } catch (const nlohmann::json::exception& e) {
                     std::cerr << "JSON parsing error: " << e.what() << std::endl;
                     return "";
