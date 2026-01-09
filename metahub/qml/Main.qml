@@ -12,29 +12,15 @@ ApplicationWindow {
     flags: Qt.Window
     color: "transparent"
 
-    // background: Image {
-    //     id: wallpaperImage
-    //     sourceSize: Qt.size(rootWindow.width, rootWindow.height)
-
-    //     GaussianBlur {
-    //         anchors.fill: parent
-    //         source: wallpaperImage
-    //         radius: 16
-    //     }
-    // }
-
     SplitView {
         id: splitView
         anchors.fill: parent
 
         Frame {
-
             id: sidebarFrame
-
             SplitView.preferredWidth: rootWindow.width * 0.25
             SplitView.minimumWidth: 150
             SplitView.maximumWidth: 600
-
             background: Rectangle {
                 color: Theme.sidebarColor
             }
@@ -43,7 +29,6 @@ ApplicationWindow {
             ListView {
                 id: menuListView
                 anchors.fill: parent
-
                 model: ["CI/CD Module", "VPN Controller", "Matrix Integration"]
 
                 delegate: ItemDelegate {
@@ -54,26 +39,15 @@ ApplicationWindow {
                     background: Rectangle {
                         color: parent.ListView.isCurrentItem ? Theme.accentColor : (parent.hovered ? Qt.rgba(1,1,1,0.1) : "transparent")
                         radius: 4
-                        Behavior on color { ColorAnimation { duration: 150 } }
                     }
 
-                    contentItem: Row {
-                        spacing: 10
-                        /*
-                        Image {
-                            source: "qrc:/icons/" + modelData + ".svg"
-                            width: 20; height: 20
-                        }
-                        */
-                        Label {
-                            text: parent.parent.text
-                            color: parent.ListView.isCurrentItem ? "white" : Theme.textColor
-                            font.bold: parent.ListView.isCurrentItem
-                        }
+                    contentItem: Label {
+                        text: parent.text
+                        color: parent.ListView.isCurrentItem ? "white" : Theme.textColor
+                        font.bold: parent.ListView.isCurrentItem
                     }
 
                     onClicked: {
-                        infoLabel.text = "Selected: " + modelData
                         menuListView.currentIndex = index
                     }
                 }
@@ -81,52 +55,97 @@ ApplicationWindow {
         }
 
         Rectangle {
-
             id: mainContent
-
             SplitView.fillWidth: true
             SplitView.minimumWidth: 300
+            color: "transparent"
 
-            width: parent.width * 0.8
-            height: 1
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.bottom: parent.bottom
-            color: Qt.rgba(1,1,1,0.05)
+            Item {
+                id: cicdView
+                anchors.fill: parent
+                visible: menuListView.currentIndex === 0
 
-            Label {
-                id: infoLabel
-                text: "Information Panel"
-                color: "white"
-                font.pixelSize: 20
-                anchors.top: parent.top
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.topMargin: 20
-            }
+                Button {
+                    id: refreshButton
+                    text: "Refresh Pipelines"
+                    anchors.top: parent.top
+                    anchors.right: parent.right
+                    anchors.margins: 20
+                    onClicked: CiCDViewModel.fetchCicdData()
+                }
 
-            Button {
-                id : fetchButton
-                text : "Fetch"
-                visible: menuListView.currentIndex == 0 
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.top: infoLabel.bottom
-                anchors.topMargin: 20
+                ListView {
+                    id: pipelineList
+                    anchors.top: refreshButton.bottom
+                    anchors.bottom: parent.bottom
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.margins: 20
+                    spacing: 10
+                    clip: true
 
-                onClicked: {
-                    infoLabel.text = "Fetching data via D-Bus..."
-                    CiCDViewModel.fetchCicdData()
+                    model: CiCDViewModel
+
+                    delegate: Rectangle {
+                        width: pipelineList.width
+                        height: 60
+                        color: Qt.rgba(1, 1, 1, 0.1)
+                        radius: 6
+                        border.color: Qt.rgba(1, 1, 1, 0.2)
+                        border.width: 1
+
+                        Row {
+                            anchors.left: parent.left
+                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.leftMargin: 15
+                            spacing: 15
+
+                            Rectangle {
+                                width: 12
+                                height: 12
+                                radius: 6
+                                color: model.conclusion === "success" ? "#4caf50" : 
+                                       model.conclusion === "failure" ? "#f44336" : "#ffeb3b"
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+
+                            Column {
+                                anchors.verticalCenter: parent.verticalCenter
+                                spacing: 4
+
+                                Text {
+                                    text: model.name
+                                    color: "white"
+                                    font.bold: true
+                                    font.pixelSize: 16
+                                }
+
+                                Text {
+                                    text: "#" + model.id
+                                    color: "#aaaaaa"
+                                    font.pixelSize: 12
+                                }
+                            }
+                        }
+
+                        Text {
+                            text: model.status
+                            color: "#dddddd"
+                            font.pixelSize: 14
+                            anchors.right: parent.right
+                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.rightMargin: 15
+                        }
+                    }
                 }
             }
 
-            Connections {
-                target: CiCDViewModel 
-
-                function onCicdDataReceived(data) {
-                    infoLabel.text = "D-Bus OK: " + data
-                }
-
-                function onCicdErrorReceived(error) {
-                    infoLabel.text = "D-Bus Error: " + error
-                }
+            Text {
+                visible: menuListView.currentIndex !== 0
+                text: "Module not implemented yet"
+                color: "grey"
+                anchors.centerIn: parent
+                font.pixelSize: 24
             }
         }
     }

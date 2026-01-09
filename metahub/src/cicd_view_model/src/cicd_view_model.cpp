@@ -4,15 +4,17 @@
 #include <qcontainerfwd.h>
 #include <qlogging.h>
 #include <qtdbusglobal.h>
+#include <qtypes.h>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QVariant>
 
 const QString CICD_SERVICE_NAME = "org.metaos.CiCdService";
 const QString CICD_OBJECT_PATH = "/org/metaos/CiCd";
 const QString CICD_INTERFACE_NAME = "org.metaos.CiCd.Interface";
 
-CiCDViewModel::CiCDViewModel(QObject* parent) : QObject(parent) {
+CiCDViewModel::CiCDViewModel(QObject* parent) {
     m_dbusInterface = new QDBusInterface(CICD_SERVICE_NAME, CICD_OBJECT_PATH, CICD_INTERFACE_NAME, QDBusConnection::sessionBus(), this);
 
     if (!m_dbusInterface->isValid()) {
@@ -35,7 +37,9 @@ void CiCDViewModel::onDataFetchFinished(QDBusPendingCallWatcher* watcher) {
     if (reply.isValid()) {
         QByteArray result = reply.value().toUtf8();
         qInfo() << "D-Bus Reply OK:";
+        qInfo() << "RAW JSON:" << result;
 
+        beginResetModel();
         m_pipline_data.clear();
 
         QJsonDocument doc;
@@ -43,9 +47,15 @@ void CiCDViewModel::onDataFetchFinished(QDBusPendingCallWatcher* watcher) {
 
         if (!doc.isArray()) {
             qWarning() << "Unvalid Json";
+            endResetModel();
             return;
         } else {
             QJsonArray json_array = doc.array();
+
+            if (!json_array.isEmpty() && json_array.first().isArray()) {
+                qInfo() << "Double array detected! Unwrapping...";
+                json_array = json_array.first().toArray();
+            }
 
             for (auto pipeline : json_array) {
                 PipelineData pipeline_data;
@@ -59,6 +69,7 @@ void CiCDViewModel::onDataFetchFinished(QDBusPendingCallWatcher* watcher) {
                 m_pipline_data.push_back(pipeline_data);
             }
         }
+        endResetModel();
 
         emit cicdDataReceived(result);
     } else {
