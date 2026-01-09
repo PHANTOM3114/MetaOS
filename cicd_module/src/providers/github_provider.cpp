@@ -1,7 +1,9 @@
 #include "providers/github_provider.h"
+#include <absl/base/log_severity.h>
 
 //Libs
 #include <libenvpp/env.hpp>
+#include <string>
 
 GitHubProvider::GitHubProvider() {
     std::ifstream env_file(".env");
@@ -41,14 +43,35 @@ std::string GitHubProvider::FetchStatusAsJson() const {
         httplib::Headers headers = {
             {"User-Agent", "MetaOS-CiCD-Module-Test/1.0"}, {"Accept", "application/vnd.github.v3+json"}, {"Authorization", auth_header}};
 
-        auto result = cli.Get("/repos/PHANTOM3114/MetaOS-Controller/actions/runs", headers);
+        auto result = cli.Get("/repos/PHANTOM3114/MetaOS/actions/runs", headers);
 
         if (result && result->status == 200) {
             std::cout << "Status Code: " << result->status << std::endl;
             if (!result->body.empty()) {
                 try {
-                    nlohmann::json json = nlohmann::json::parse(result->body);
-                    pipeline_info = json.dump(4);
+                    nlohmann::json raw_json = nlohmann::json::parse(result->body);
+                    nlohmann::json filtered_json = nlohmann::json::array();
+
+                    if (raw_json.contains("workflow_runs")) {
+                        for (auto& el : raw_json["workflow_runs"]) {
+                            nlohmann::json item;
+                            item["id"] = el["id"];
+                            item["name"] = el["name"];
+                            item["status"] = el["status"];
+                            item["conclusion"] = el["conclusion"];
+
+                            filtered_json.push_back(item);
+                        }
+                    }
+
+                    std::ofstream jsonfile;
+                    jsonfile.open("file");
+                    jsonfile << filtered_json;
+                    jsonfile.close();
+
+                    pipeline_info = filtered_json.dump(4);
+
+                    return pipeline_info;
                 } catch (const nlohmann::json::exception& e) {
                     std::cerr << "JSON parsing error: " << e.what() << std::endl;
                     return "";
