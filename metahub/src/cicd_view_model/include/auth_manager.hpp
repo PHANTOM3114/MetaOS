@@ -10,6 +10,11 @@ class AuthManager : public QObject {
 public:
     explicit AuthManager(QObject* parent = nullptr);
 
+    void grant();
+
+    void setupGithub();
+    void setupGitlab();
+
 signals:
     void tokenReceived(const QString& token);
     void tokenErrorReceived(const QString& error);

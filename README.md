@@ -95,6 +95,6 @@ Build all tagrets:
 ## 🗺️ Roadmap
 
 - [x] **Autumn 2025** - MVP of Metahub with CI/CD Module
-- ~~[ ] **Winter 2025-2026** - MVP of VPN, and yaml parser~~
+- [ ] ~~**Winter 2025-2026** - MVP of VPN, and yaml parser~~
 - [x] **Winter 2025-2026** - JSON view in Metahub
 - [ ] **Spring 2026** - MVP of Matrix Module
