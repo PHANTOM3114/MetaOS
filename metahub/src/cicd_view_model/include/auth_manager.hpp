@@ -1,5 +1,9 @@
 #include <qobject.h>
 #include <qtmetamacros.h>
+#include <QDBusConnection>
+#include <QDBusInterface>
+#include <QDBusPendingCallWatcher>
+#include <QDBusPendingReply>
 
 class QOAuth2AuthorizationCodeFlow;
 class QOAuthHttpServerReplyHandler;
@@ -25,4 +29,6 @@ private slots:
 private:
     QOAuth2AuthorizationCodeFlow* m_oauth;
     QOAuthHttpServerReplyHandler* m_handler;
+
+    QDBusInterface* m_dbusInterface;
 };

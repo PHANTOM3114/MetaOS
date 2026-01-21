@@ -34,9 +34,35 @@ std::string CiCdDbusAdapter::PipelineStatusFetch() {
         std::cout << "[TIMING] CPU-bound (adapter dispatch + polymorphism): " << cpu_duration_us << " us" << std::endl;
 
         if (!provider_json_string.empty()) {
-            results_array.push_back(nlohmann::json::parse(provider_json_string));
+            try {
+                auto provider_json = nlohmann::json::parse(provider_json_string);
+
+                if (provider_json.is_array()) {
+                    for (const auto& item : provider_json) {
+                        results_array.push_back(item);
+                    }
+                } else {
+                    results_array.push_back(provider_json);
+                }
+            } catch (const nlohmann::json::exception& e) {
+                std::cerr << "JSON Merge Error: " << e.what() << std::endl;
+            }
         }
     }
 
     return results_array.dump(4);
+}
+
+bool CiCdDbusAdapter::UpdateToken(const std::string& providerName, const std::string& token) {
+    std::cout << providerName << std::endl;
+
+    for (const auto& provider : providers_) {
+        if (provider->GetProviderName() == providerName) {
+            provider->SetToken(token);
+            return true;
+        }
+    }
+
+    std::cerr << "Error: Provider not found: " << providerName << std::endl;
+    return false;
 }

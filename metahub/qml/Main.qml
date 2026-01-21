@@ -17,6 +17,22 @@ ApplicationWindow {
         Shortcut { sequence: "Ctrl+-"; onActivated: window.uiScale = Math.max(window.uiScale - 0.1, 0.5) }
         Shortcut { sequence: "Ctrl+0"; onActivated: window.uiScale = 1.0 }
 
+    property bool isGithubAuthenticated: false
+
+    Connections {
+        target: AuthManager 
+        
+        function onTokenReceived(token) {
+            console.log("Token synced with Daemon. UI updated to Connected state.")
+            window.isGithubAuthenticated = true
+        }
+
+        function onTokenErrorReceived(error) {
+            console.warn("Auth Error: " + error)
+            window.isGithubAuthenticated = false
+        }
+    }
+
         Item {
             anchors.centerIn: parent
             width: parent.width / window.uiScale
@@ -109,27 +125,32 @@ ApplicationWindow {
                                     }
 
                                     Button {
-                                        text: "GitHub Login"
+                                        id: authBtn
+                                        text: window.isGithubAuthenticated ? "Connected" : "GitHub Login"
                                         flat: true
-                                        
+
                                         contentItem: Text {
                                             text: parent.text
-                                            color: Theme.auroraYellow 
+                                            color: window.isGithubAuthenticated ? Theme.auroraGreen : Theme.auroraYellow
                                             font.bold: true
                                             horizontalAlignment: Text.AlignHCenter
                                             verticalAlignment: Text.AlignVCenter
                                         }
-                                        
+
                                         background: Rectangle {
                                             color: parent.pressed ? Theme.polarNight1 : "transparent"
                                             radius: 6
                                             border.width: 1
-                                            border.color: Theme.auroraYellow
+                                            border.color: window.isGithubAuthenticated ? Theme.auroraGreen : Theme.auroraYellow
                                         }
 
                                         onClicked: {
-                                            console.log("Starting OAuth flow...")
-                                            AuthManager.startAuth()
+                                            if (!window.isGithubAuthenticated) {
+                                                console.log("Starting OAuth flow...")
+                                                AuthManager.startAuth()
+                                            } else {
+                                                console.log("Already authenticated. (Add logout logic here if needed)")
+                                            }
                                         }
                                     }
 

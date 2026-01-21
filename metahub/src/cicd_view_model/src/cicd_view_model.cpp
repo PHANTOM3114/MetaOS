@@ -52,11 +52,6 @@ void CiCDViewModel::onDataFetchFinished(QDBusPendingCallWatcher* watcher) {
         } else {
             QJsonArray json_array = doc.array();
 
-            if (!json_array.isEmpty() && json_array.first().isArray()) {
-                qInfo() << "Double array detected! Unwrapping...";
-                json_array = json_array.first().toArray();
-            }
-
             for (auto pipeline : json_array) {
                 PipelineData pipeline_data;
                 QJsonObject object = pipeline.toObject();
