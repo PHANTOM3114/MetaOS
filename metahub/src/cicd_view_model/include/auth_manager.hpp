@@ -10,8 +10,8 @@ class AuthManager : public QObject {
 public:
     explicit AuthManager(QObject* parent = nullptr);
 
-    void grant();
-
+public slots:
+    void startAuth();
     void setupGithub();
     void setupGitlab();
 

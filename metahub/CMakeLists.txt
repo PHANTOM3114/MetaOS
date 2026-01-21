@@ -8,6 +8,8 @@ add_executable(metahub
         src/main.cpp
         src/cicd_view_model/include/cicd_view_model.hpp
         src/cicd_view_model/src/cicd_view_model.cpp
+        src/cicd_view_model/include/auth_manager.hpp
+        src/cicd_view_model/src/auth_manager.cpp
         qml/qml.qrc
 )
 

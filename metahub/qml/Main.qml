@@ -109,6 +109,31 @@ ApplicationWindow {
                                     }
 
                                     Button {
+                                        text: "GitHub Login"
+                                        flat: true
+                                        
+                                        contentItem: Text {
+                                            text: parent.text
+                                            color: Theme.auroraYellow 
+                                            font.bold: true
+                                            horizontalAlignment: Text.AlignHCenter
+                                            verticalAlignment: Text.AlignVCenter
+                                        }
+                                        
+                                        background: Rectangle {
+                                            color: parent.pressed ? Theme.polarNight1 : "transparent"
+                                            radius: 6
+                                            border.width: 1
+                                            border.color: Theme.auroraYellow
+                                        }
+
+                                        onClicked: {
+                                            console.log("Starting OAuth flow...")
+                                            AuthManager.startAuth()
+                                        }
+                                    }
+
+                                    Button {
                                         id: refreshBtn
                                         text: "⟳ Refresh"
                                         flat: true
