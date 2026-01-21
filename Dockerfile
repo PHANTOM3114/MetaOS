@@ -1,4 +1,4 @@
-FROM debian:trixie
+FROM ubuntu:rolling
 
 ENV TZ=Europe/Berlin
 ENV DEBIAN_FRONTEND=noninteractive
