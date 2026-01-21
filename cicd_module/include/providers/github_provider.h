@@ -14,8 +14,10 @@ class GitHubProvider : public IPipelineProvider {
 public:
     GitHubProvider();
     std::string FetchStatusAsJson() const override;
+    void SetToken(const std::string& token) override;
+    std::string GetProviderName() const override;
 
 private:
-    std::string github_token_;
+    std::string current_token_;
     std::string pipeline_info;
 };

@@ -6,35 +6,18 @@
 #include <string>
 
 GitHubProvider::GitHubProvider() {
-    std::ifstream env_file(".env");
-    if (!env_file.is_open()) {
-        throw std::runtime_error("FATAL: Cannot open .env file. Check path and permissions.");
-    }
-
-    std::string line;
-    bool token_found = false;
-
-    while (std::getline(env_file, line)) {
-        std::string key = "GITHUB_TOKEN=";
-        if (line.rfind(key, 0) == 0) {
-            github_token_ = line.substr(key.length());
-            token_found = true;
-            break;
-        }
-    }
-    env_file.close();
-
-    if (!token_found || github_token_.empty()) {
-        throw std::runtime_error("Error: 'GITHUB_TOKEN' key not found or is empty in .env file.");
-    }
+    std::cout << "Clear Start. Wait for token..." << std::endl;
 }
 
 std::string GitHubProvider::FetchStatusAsJson() const {
-
     std::string pipeline_info = "";
 
+    if (current_token_.empty()) {
+        return "";
+    }
+
     try {
-        std::string auth_header = "token " + github_token_;
+        std::string auth_header = "token " + current_token_;
 
         httplib::Client cli("https://api.github.com");
         cli.set_connection_timeout(30, 0);  // 30 seconds
@@ -93,4 +76,13 @@ std::string GitHubProvider::FetchStatusAsJson() const {
         std::cerr << "Exception in StartFetching: " << e.what() << std::endl;
         return "";
     }
+}
+
+std::string GitHubProvider::GetProviderName() const {
+    return "github";
+}
+
+void GitHubProvider::SetToken(const std::string& token) {
+    current_token_ = token;
+    std::cout << "Token Updated" << std::endl;
 }

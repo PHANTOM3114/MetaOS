@@ -9,12 +9,13 @@
 #include <vector>
 
 class CiCdDbusAdapter final : public sdbus::AdaptorInterfaces<org::metaos::CiCd::Interface_adaptor> {
-   public:
+public:
     CiCdDbusAdapter(sdbus::IConnection& connection, sdbus::ObjectPath objectPath);
     ~CiCdDbusAdapter();
 
     std::string PipelineStatusFetch() override;
+    bool UpdateToken(const std::string& providerName, const std::string& token) override;
 
-   private:
+private:
     std::vector<std::unique_ptr<IPipelineProvider>> providers_;
 };

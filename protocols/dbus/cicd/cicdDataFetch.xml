@@ -12,5 +12,12 @@
             <arg type="s" name="statusType"/>
         </signal>
 
+        <method name="UpdateToken">
+            <arg direction="in" type="s" name="providerName"/>
+            <arg direction="in" type="s" name="token"/>
+            
+            <arg direction="out" type="b" name="success"/>
+        </method>
+        
     </interface>
 </node>
