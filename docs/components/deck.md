@@ -1,33 +1,41 @@
-# Metahub
+# AR-S Module: DECK
 
-The central graphical command center for the MetaOS ecosystem, built using Qt/QML. Metahub serves as the primary **local interface** for users to manage, monitor, and interact with various system components and modules, embodying the "local cycle" within the MetaOS architecture.
+* **Role:** Central Command Interface (HMI)
+* **Status:** Active / UX Prototyping
 
-## 🏛️ Architecture
+## Overview
 
-> **Note:** This is an initial architectural draft. The final implementation, code, and design may change significantly as development and refactoring progress.
+Deck serves as the unified Human-Machine Interface (HMI) for the **Advanced Reliable System (AR-S)**. Built on the **Qt 6 (QML)** framework, it provides a hardware-accelerated layer for system interaction.
 
-Metahub is designed with a focus on modularity and inter-process communication via D-Bus to deliver a flexible and visually coherent user experience.
+Unlike traditional desktop environments, Deck does not manage windows; it functions as a **unified control surface**. It aggregates telemetry from D-Bus services (Sonar, Interlink, MagField) and provides direct access to their configuration and operational modes.
 
-Key architectural aspects:
+## Architecture
 
-1.  **Modular Interface:** The UI is intended to be modular, allowing different system components (like the `cicd_module`, `vpn_module`, `matrix_module`, etc.) to register their own management panels within Metahub.
-2.  **D-Bus Communication:** Metahub relies heavily on the system's D-Bus interface for interacting with other MetaOS modules. It primarily functions as a **D-Bus client** to request data or trigger actions in services like `cicd_module`. Additionally, Metahub exposes its own **D-Bus interface**, allowing other modules to query its state or receive signals crucial for **coordinating actions** across the ecosystem.
+Deck implements a strict **Model-View-ViewModel (MVVM)** architecture to maintain separation between the visual presentation and system logic.
 
-This architecture allows Metahub to be the user-facing "front-end" while keeping the core logic within dedicated backend services and modules, promoting separation of concerns.
+* **View (QML)**:
+    * Handles purely visual elements and user input.
+    * Implements the "Polar Night" design language: strict minimalism, high contrast, and functional negative space.
+    * Completely decoupled from business logic.
 
-## 🚀 Build and Run
+* **ViewModel (C++)**:
+    * Examples: `SonarViewModel`, `AuthManager`.
+    * Acts as the translation layer. It subscribes to D-Bus signals from backend daemons and exposes `Q_PROPERTY` fields to the QML engine.
+    * Manages transient state (e.g., active input fields) that does not need to persist in the backend.
 
-### For macOS & Linux
+* **IPC Orchestrator**:
+    * Deck functions primarily as a **D-Bus Client**. It does not execute system tasks directly; instead, it dispatches commands (e.g., `UpdateToken`) to the respective specialized agents.
 
-#### Build
+## Build & Deployment
 
-To build the module, run the following command from the root of the repository:
+Deck requires the full Qt 6 ecosystem and C++20 support.
+
+### Prerequisites
+* **C++20 Compiler** (GCC/Clang)
+* **Qt 6.x SDK** (Core, Quick, DBus, Qml modules)
+* `sdbus-c++`
+
+### Compilation
 
 ```bash
-# Using the Docker wrapper script (recommended for macOS)
-# Note: This currently uses a CMake bridge due to Bazel/Qt integration challenges.
-./bazel.sh build //components/metahub:metahub
-
-# For native Linux
-# Note: This currently uses a CMake bridge due to Bazel/Qt integration challenges.
-bazel build //components/metahub:metahub
+cmake -B build && cmake --build build --target deck
