@@ -12,8 +12,8 @@
     
     "runArgs": ["--init", "--privileged"],
 
-    "workspaceMount": "source=${localWorkspaceFolder},target=/home/metauser/MetaOS,type=bind,consistency=cached",
-    "workspaceFolder": "/home/metauser/MetaOS",
+    "workspaceMount": "source=${localWorkspaceFolder},target=/home/ars/AR-S,type=bind,consistency=cached",
+    "workspaceFolder": "/home/ars/AR-S",
 
-    "remoteUser": "metauser"
+    "remoteUser": "ars"
 }

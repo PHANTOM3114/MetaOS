@@ -1,4 +1,4 @@
-name: MetaOS CI
+name: AR-S Main
 
 on:
   push:
@@ -15,8 +15,8 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Build Docker Image
-      run: docker build -t metaos-dev .
+      run: docker build -t ars-dev .
 
     - name: Build all targets with CMake
       run: |
-        docker run --rm metaos-dev /bin/bash -c "cmake -B build && cmake --build build"
+        docker run --rm ars-dev /bin/bash -c "cmake -B build && cmake --build build"

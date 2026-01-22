@@ -25,7 +25,7 @@ std::string GitHubProvider::FetchStatusAsJson() const {
         httplib::Headers headers = {
             {"User-Agent", "ARS-Sonar-Module-Test/1.0"}, {"Accept", "application/vnd.github.v3+json"}, {"Authorization", auth_header}};
 
-        auto result = cli.Get("/repos/PHANTOM3114/MetaOS/actions/runs", headers);
+        auto result = cli.Get("/repos/PHANTOM3114/AR-S/actions/runs", headers);
 
         if (result && result->status == 200) {
             std::cout << "Status Code: " << result->status << std::endl;

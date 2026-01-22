@@ -41,17 +41,18 @@ RUN apt-get update && apt-get install -y \
 ENV CC=clang
 ENV CXX=clang++
 
-RUN useradd -m -s /bin/bash metauser && echo "metauser:password" | chpasswd
-RUN echo "metauser ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+RUN useradd -m -s /bin/bash ars && echo "ars:password" | chpasswd
+RUN echo "ars ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-USER metauser
+USER ars
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+
 USER root
-RUN ln -s /home/metauser/.cargo/bin/rustc /usr/local/bin/rustc && \
-    ln -s /home/metauser/.cargo/bin/cargo /usr/local/bin/cargo && \
-    ln -s /home/metauser/.cargo/bin/rustup /usr/local/bin/rustup
+RUN ln -s /home/ars/.cargo/bin/rustc /usr/local/bin/rustc && \
+    ln -s /home/ars/.cargo/bin/cargo /usr/local/bin/cargo && \
+    ln -s /home/ars/.cargo/bin/rustup /usr/local/bin/rustup
 
-USER metauser
-WORKDIR /home/metauser
+USER ars
+WORKDIR /home/ars
 
-COPY --chown=metauser:metauser . .
+COPY --chown=ars:ars . .
