@@ -70,9 +70,9 @@ ApplicationWindow {
                             clip: true
                             model: ListModel {
                                 ListElement { name: "Dashboard";}
-                                ListElement { name: "CI/CD Module"; }
-                                ListElement { name: "VPN Module"; }
-                                ListElement { name: "Matrix Module"; }
+                                ListElement { name: "Sonar Module"; }
+                                ListElement { name: "Magfield Module"; }
+                                ListElement { name: "Interlink Module"; }
                             }
 
                             delegate: Rectangle {
