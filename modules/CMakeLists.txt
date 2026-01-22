@@ -1,0 +1,5 @@
+add_subdirectory(deck)
+add_subdirectory(sonar)
+add_subdirectory(agent)
+add_subdirectory(interlink)
+add_subdirectory(magfield)

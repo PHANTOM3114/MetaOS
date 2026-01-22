@@ -1,5 +1,5 @@
 {
-    "name": "MetaOS Dev Environment",
+    "name": "AR-S Dev Environment",
     "build": {
         "dockerfile": "../Dockerfile"
     },

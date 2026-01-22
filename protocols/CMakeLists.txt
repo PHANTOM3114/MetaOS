@@ -1,1 +1,1 @@
-add_subdirectory(grpc/metadaemon)
+add_subdirectory(grpc/agent)
