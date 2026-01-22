@@ -1,6 +1,6 @@
-# MetaOS
-**MetaOS** is an distributed service-oriented ecosystem, which grounded on a simple premise: your computer should be a powerful, integrated tool that serves you, not the other way around. We combine the flexibility of Linux with a deep, thoughtful integration of services to create an environment that is secure, controllable, and inspiring.
-Instead of hiding powerful tools, we provide a unified interface to control them. Instead of isolated applications, we build a cohesive system. MetaOS is designed to be your digital command center and your creative workshop.
+# AR-S
+**AR-S** is an distributed service-oriented ecosystem, which grounded on a simple premise: your computer should be a powerful, integrated tool that serves you, not the other way around. We combine the flexibility of Linux with a deep, thoughtful integration of services to create an environment that is secure, controllable, and inspiring.
+Instead of hiding powerful tools, we provide a unified interface to control them. Instead of isolated applications, we build a cohesive system. AR-S is designed to be your digital command center and your creative workshop.
 
 **Table of contents**
 
@@ -13,7 +13,7 @@ Instead of hiding powerful tools, we provide a unified interface to control them
 ---
 ## 🧠 Philosophy
 
-The development and philosophy of MetaOS are structured around three distinct principles, embodied by their respective sectors:
+The development and philosophy of AR-S are structured around three distinct principles, embodied by their respective sectors:
 
 * 🛡️ **Security Sector - Privacy by Default**: We believe privacy is a non-negotiable right. This is achieved by integrating natively secure components like the Matrix protocol and building autonomous, scenario-based security tools like the built-in VPN. Your data and communications should be yours alone.
 
@@ -28,7 +28,7 @@ MetaOS is not a monolithic application but an ecosystem of interconnected, indep
 
 The system is built on the interaction of two key component types:
 
-* **Modules:** Separate, independent applications that perform specific functions (e.g., `cicd_module`, `vpn_module`). They are the "organs" of the system.
+* **Modules:** Separate, independent applications that perform specific functions (e.g., `sonar`, `magfield`). They are the "organs" of the system.
 * **MetaDaemon:** The **"remote cycle"** of the ecosystem. It acts as the central nervous system, with its controllers managing modules through standard D-Bus calls for remote operations.
 * **Metahub:** The **"local cycle"** of the ecosystem. This central Qt-based desktop application is your command center for on-site management, providing a unified graphical interface to all system components.
 
@@ -66,7 +66,7 @@ This service-oriented design ensures robustness, flexibility, and makes the enti
 ---
 ## Getting Started
 
-**Architectural Requirement:** The MetaOS ecosystem is designed and built exclusively for the **Linux** operating system. Therefore, all development must ultimately take place within a Linux environment to ensure full compatibility.
+**Architectural Requirement:** The AR-S is designed and built exclusively for the **Linux** operating system. Therefore, all development must ultimately take place within a Linux environment to ensure full compatibility.
 
 ### Environment Setup
 
