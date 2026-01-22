@@ -46,7 +46,7 @@ void AuthManager::setupGithub() {
     m_oauth->setAuthorizationUrl(QUrl("https://github.com/login/oauth/authorize"));
     m_oauth->setTokenUrl(QUrl("https://github.com/login/oauth/access_token"));
     m_oauth->setClientIdentifier("Ov23liaSalefAhl16gjU");
-    m_oauth->setClientIdentifierSharedKey("0c1c78e90946f9c9e3bed6107552f3a4b511d979");
+    m_oauth->setClientIdentifierSharedKey("REPLACE_ME");
     m_oauth->setRequestedScopeTokens({"repo", "user"});
 }
 
