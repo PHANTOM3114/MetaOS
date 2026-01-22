@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.25)
 
-project(MetaOS VERSION 0.0.2 LANGUAGES CXX C)
+project(AR-S VERSION 0.0.3 LANGUAGES CXX C)
 
 set(CMAKE_CXX_STANDARD 23)           
 set(CMAKE_CXX_STANDARD_REQUIRED ON)  
@@ -23,9 +23,5 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(Corrosion)
 
-add_subdirectory(cicd_module)
 add_subdirectory(protocols)       
-add_subdirectory(metadaemon)
-add_subdirectory(metahub)
-add_subdirectory(matrix)
-add_subdirectory(vpn_manager)
+add_subdirectory(modules)

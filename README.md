@@ -42,8 +42,8 @@ This service-oriented design ensures robustness, flexibility, and makes the enti
 
 | Component | Status | Description |
 |---|---|---|
-| **Built-in VPN** | ![Status](https://img.shields.io/badge/status-planned-lightgrey) | System-level integration with scenario-based automation. |
-| **Matrix Integration** | ![Status](https://img.shields.io/badge/status-planned-lightgrey) | Native integration for the decentralized, encrypted Matrix protocol. |
+| **Magfield** | ![Status](https://img.shields.io/badge/status-planned-lightgrey) | System-level integration with scenario-based automation. |
+| **Interlink** | ![Status](https://img.shields.io/badge/status-planned-lightgrey) | Native integration for the decentralized, encrypted Matrix protocol. |
 | **Face ID** | ![Status](https://img.shields.io/badge/status-planned-lightgrey) | Secure login using webcam-based facial recognition. |
 | **Security & IoT Hub**| ![Status](https://img.shields.io/badge/status-planned-lightgrey) | Integration with smart security systems like Ajax, Bosch, etc. |
 
@@ -51,20 +51,20 @@ This service-oriented design ensures robustness, flexibility, and makes the enti
 
 | Component | Status | Description |
 |---|---|---|
-|**Metahub** | ![Status](https://img.shields.io/badge/status-in%20progress-yellow)|The central Qt-based desktop application for managing and interacting with all system components. 
-|**MetaDaemon**| ![Status](https://img.shields.io/badge/status-in%20progress-yellow) | Point of remote management of all other daemons.
+|**Deck** | ![Status](https://img.shields.io/badge/status-in%20progress-yellow)|The central Qt-based desktop application for managing and interacting with all system components. 
+|**Agent**| ![Status](https://img.shields.io/badge/status-in%20progress-yellow) | Point of remote management of all other daemons.
 |**Android Client**| ![Status](https://img.shields.io/badge/status-in%20progress-yellow) | A native mobile client for remote management, notifications, and deep integration with your phone.
 
 ### ⚙️ Utility Sector ###
 
 | Component | Status | Description |
 |---|---|---|
-|**CI/CD Module** | ![Status](https://img.shields.io/badge/status-in%20progress-yellow)| A system service for monitoring your development pipelines directly from the OS. 
+|**Sonar Monitoring** | ![Status](https://img.shields.io/badge/status-in%20progress-yellow)| A system service for monitoring your development pipelines directly from the OS. 
 |**D-Bus Integration** | ![Status](https://img.shields.io/badge/status-in%20progress-yellow)| Adherence to modern Linux standards for robust and efficient Inter-Process Communication.
 |**GPU Passthrough** | ![Status](https://img.shields.io/badge/status-planned-lightgrey) | Simplify your gaming and working experience.
 
 ---
-## 🚀 Getting Started
+## Getting Started
 
 **Architectural Requirement:** The MetaOS ecosystem is designed and built exclusively for the **Linux** operating system. Therefore, all development must ultimately take place within a Linux environment to ensure full compatibility.
 
@@ -96,5 +96,5 @@ Build all tagrets:
 
 - [x] **Autumn 2025** - MVP of Metahub with CI/CD Module
 - [ ] ~~**Winter 2025-2026** - MVP of VPN, and yaml parser~~
-- [x] **Winter 2025-2026** - JSON view in Metahub
-- [ ] **Spring 2026** - MVP of Matrix Module
+- [x] **Winter 2025-2026** - JSON view in Deck
+- [ ] **Spring 2026** - MVP of Interlink
