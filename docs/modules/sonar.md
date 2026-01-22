@@ -1,8 +1,8 @@
 # AR-S Module: SONAR
 
-**Component Designation:** `org.ars.sonar`
-**Role:** On-demand Pipeline Intelligence
-**Status:** Active
+* **Component Designation:** `org.ars.sonar`
+* **Role:** On-demand Pipeline Intelligence
+* **Status:** Active
 
 ## Overview
 
