@@ -1,58 +1,45 @@
-# MetaDaemon
+# AR-S Module: AGENT
 
-GRPC-based Main Network Daemon of MetaOS Ecosystem, which is point of remote management of all other daemons.
+* **Role:** Remote Operations Orchestrator (gRPC Gateway)
+* **Status:** Active
+
+## Overview
+
+Agent is the external airlock of the **Advanced Reliable System (AR-S)**. It functions as a high-performance gRPC server that exposes internal system capabilities to authorized remote clients (Mobile App).
+
+It acts as a protocol bridge: receiving encrypted gRPC commands from the network and translating them into local system calls or D-Bus messages for specific modules (Sonar, MagField).
 
 ## Architecture
 
-The system is built on the interaction of two key components:
+The Agent architecture is built around the **Controller Injection** pattern, where the gRPC service delegates actual execution to specialized internal controllers.
 
-* **Controllers:** Logical units within `MetaDaemon` responsible for a specific functional area which will communicate with modules.
-* **Modules:** Separate, independent applications that perform this functions. 
+### Core Components
 
-## Core Controllers & Modules
+1.  **gRPC Service Layer (`agent.proto`)**:
+    * Defines the contract for external communication.
+    * Handles authentication and request deserialization.
 
-| Component | Status | Description |
-|---|---|---|
-|**Shell Controller** | ![Status](https://img.shields.io/badge/status-completed-green)|Provides secure access to the system shell and command execution.
-|**CI/CD Controller**| ![Status](https://img.shields.io/badge/status-planned-lightgrey) | Enables monitoring and management of pipelines
-|**Gateway Controller**| ![Status](https://img.shields.io/badge/status-planned-lightgrey) | Integration with cloud services and providers for remote access.
-| **VPN Controller** | ![Status](https://img.shields.io/badge/status-planned-lightgrey) | Manages VPN connections based on predefined scenarios
+2.  **Internal Controllers**:
+    * **Shell Controller** (`Active`): Provides encapsulated access to system shell execution. Unlike a raw SSH session, it executes pre-validated command sets or restricted shell environments.
+    * **Sonar Controller** (`Planned`): Acts as a telemetry relay. It proxies remote requests from the mobile app (AR-A) to the local `org.ars.sonar` D-Bus service, allowing the user to view pipeline statuses remotely without direct access to the host's session bus.
 
-## 🚀 Build and Run
+## Interlink Protocol (gRPC)
 
-### For macOS & Linux
+Communication is strictly typed via Protocol Buffers.
 
-#### Build
+* **Port:** Default `50051` (Configurable)
+* **Definition:** `protocols/grpc/agent/agent.proto`
 
-To build the module, run the following command from the root of the repository:
+## Build & Deployment
+
+Agent depends on the **gRPC** and **Protobuf** ecosystem, managed via CMake.
+
+### Prerequisites
+* C++20 Compiler
+* `grpc` + `protobuf` (system or submodule)
+* `sdbus-c++`
+
+### Compilation
 
 ```bash
-# Using the Docker wrapper script (recommended for macOS)
-./bazel.sh build //components/metadaemon:server
-
-# For native Linux
-bazel build //components/metadaemon:server
-```
-### For Windows
-Note: All detailed instructions for building and running on Windows will be added in the future. 
-
-## IDE Integration (Autocomplete)
-
-To enable features like autocomplete and go-to-definition in your IDE (e.g., VSCode with clangd), you need to generate a compile_commands.json file. This file tells the IDE how to correctly interpret your C++ code, including all necessary paths and compiler flags.
-
-We have a pre-configured target to generate this file for all main components.
-
-## Generating compile_commands.json
-
-Run the following command from the root of the repository:
-
-### For macOS (recommended)
-```bash
-./bazel.sh run //:refresh_compile_commands
-```
-
-### For native Linux
-```bash
-bazel run //:refresh_compile_commands
-```
-> This will create a compile_commands.json file in your project root. Your IDE should automatically detect it and enable advanced code intelligence features.
+cmake -B build && cmake --build build --target agent
