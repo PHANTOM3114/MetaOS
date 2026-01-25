@@ -31,7 +31,7 @@ Popup {
         }
 
         Label {
-            text: "Перейдіть за посиланням та введіть код:"
+            text: "Follow the link and enter the code:"
             color: "#D8DEE9"
             font.pixelSize: 14
             wrapMode: Text.WordWrap
