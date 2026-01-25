@@ -1,6 +1,8 @@
-<!DOCTYPE RCC><RCC version="1.0">
-    <qresource prefix="/">
-        <file>Main.qml</file>
-        <file>Theme.qml</file>
-    </qresource>
+<!DOCTYPE RCC>
+<RCC version="1.0">
+  <qresource prefix="/">
+    <file>Main.qml</file>
+    <file>Theme.qml</file>
+    <file>components/AuthPopup.qml</file>
+  </qresource>
 </RCC>

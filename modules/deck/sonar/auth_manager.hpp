@@ -3,8 +3,7 @@
 #include <QDBusPendingCallWatcher>
 #include <QDBusPendingReply>
 
-class QOAuth2AuthorizationCodeFlow;
-class QOAuthHttpServerReplyHandler;
+class QOAuth2DeviceAuthorizationFlow;
 
 namespace Ars {
 namespace Deck {
@@ -23,13 +22,13 @@ signals:
     void tokenReceived(const QString& token);
     void tokenErrorReceived(const QString& error);
 
+    void deviceAuthReady(const QString& url, const QString& userCode);
+
 private slots:
     void onAuthFinished();
 
 private:
-    QOAuth2AuthorizationCodeFlow* m_oauth;
-    QOAuthHttpServerReplyHandler* m_handler;
-
+    QOAuth2DeviceAuthorizationFlow* m_oauth;
     QDBusInterface* m_dbusInterface;
 };
 }  // namespace Deck

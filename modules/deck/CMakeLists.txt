@@ -6,12 +6,15 @@ find_package(Qt6 REQUIRED COMPONENTS Core Gui Qml Quick DBus NetworkAuth)
 
 add_executable(deck
         main.cpp
+        utils/json_network_manager.hpp
         sonar/sonar_view_model.hpp
         sonar/sonar_view_model.cpp
         sonar/auth_manager.hpp
         sonar/auth_manager.cpp
         qml/qml.qrc
 )
+
+target_include_directories(deck PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
 target_link_libraries(deck PRIVATE
     Qt6::Core
