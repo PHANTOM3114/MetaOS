@@ -62,3 +62,7 @@ bool DbusAdapter::UpdateToken(const std::string& providerName, const std::string
     std::cerr << "Error: Provider not found: " << providerName << std::endl;
     return false;
 }
+
+void DbusAdapter::emitSonarStopWorkSignal(const std::string& message) {
+    emitSonarWorkStop(message);
+}

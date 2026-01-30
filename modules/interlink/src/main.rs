@@ -1,78 +1,70 @@
-use std::{env, process::exit};
-use matrix_sdk::{
-    RoomState,
-    room::Room,
-    ruma::{
-        events::room::message::RoomMessageEventContent,
-        RoomId,
-    },
-    Client,
-};
-use tracing::{info, error};
-use anyhow::anyhow;
+mod cia;
+mod common;
 
-async fn send_hello_to_room(client: &Client, room_id_str: &str) -> anyhow::Result<()> {
-    let room_id = RoomId::parse(room_id_str)?;
-    info!("Looking for room: {}", room_id);
-
-    if let Some(room) = client.get_room(&room_id) {
-        if room.state() == RoomState::Joined {
-            info!("Room found. Sending message...");
-            let content = RoomMessageEventContent::text_plain("Hello!");
-            
-            match room.send(content).await {
-                Ok(response) => info!("Success! Event ID: {}", response.event_id),
-                Err(e) => error!("Failed to send: {:?}", e),
-            }
-        } else {
-            return Err(anyhow!("Bot is not fully joined to this room"));
-        }
-    } else {
-        return Err(anyhow!("Room not found in local state (did you sync?)"));
-    }
-    Ok(())
+mod listeners {
+    pub mod sonar;
 }
+
+use crate::listeners::sonar::SonarMessageAcceptProxy;
+use crate::common::common::{CiaBotData, ModuleMessageAccept};
+
+use anyhow::{anyhow};
+use tracing::{info, error};
+use zbus::{Connection};
+use futures_util::stream::StreamExt;
+
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
-    tracing_subscriber::fmt()
-        .with_max_level(tracing::Level::INFO)
-        .init();
+    tracing_subscriber::fmt::init();
 
     let exe_path = std::env::current_exe()?;
     let exe_dir = exe_path.parent().ok_or(anyhow!("Failed to get binary directory"))?;
     let env_path = exe_dir.join(".env");
-
-    info!("Looking for .env file at: {:?}", env_path);
-
+    
     if let Err(e) = dotenv::from_path(&env_path) {
-        info!("Warning: .env file not found or not readable at {:?}. Error: {}", env_path, e);
+        info!("Warning: .env file not found: {}", e);
     } else {
         info!("Successfully loaded .env file");
     }
 
-    let homeserver_url = env::var("MATRIX_HOMESERVER")?;
-    let username = env::var("MATRIX_BOT_USERNAME")?;
-    let password = env::var("MATRIX_BOT_PASSWORD")?;
-    let target_room_id = env::var("MATRIX_TARGET_ROOM_ID")?;
-
-    info!("Connecting to {}", homeserver_url);
-    let client = Client::builder().homeserver_url(homeserver_url).build().await?;
-
-    client.matrix_auth()
-        .login_username(&username, &password)
-        .initial_device_display_name("rust-bot-clean")
-        .await?;
+    let (client, target_room_id) = cia::build_and_login().await?;
     info!("Logged in as {}", client.user_id().unwrap());
 
     info!("Syncing...");
     client.sync_once(Default::default()).await?;
     info!("Synced!");
 
-    if let Err(e) = send_hello_to_room(&client, &target_room_id).await {
-        error!("Fatal error: {:?}", e);
-        exit(1);
-    }
+    let bot_agent = CiaBotData::new(client, target_room_id);
+    
+    bot_agent.on_info("Interlink", "System Online. Secure Uplink Established.").await;
 
-    info!("Done.");
-    Ok(())
+    let connection = Connection::session().await?;
+    let proxy = SonarMessageAcceptProxy::new(&connection).await?;
+
+    let mut stop_stream = proxy.receive_sonar_work_stop().await?;
+    let mut crash_stream = proxy.receive_sonar_crash().await?;
+
+    info!("Listening for signals...");
+
+    loop {
+        tokio::select! {
+            Some(signal) = stop_stream.next() => {
+                let args = signal.args().expect("Failed to parse args");
+                let msg: &str = args.exit_message;
+                
+                info!("Received Stop Signal: {}", msg);
+                
+                bot_agent.on_info("Sonar", &format!("Graceful Shutdown: {}", msg)).await;
+            }
+            
+            Some(signal) = crash_stream.next() => {
+                let args = signal.args().expect("Failed to parse args");
+                let msg: &str = args.crash_message;
+
+                error!("Received CRASH: {}", msg);
+
+                bot_agent.on_crash_error("Sonar", &format!("System CRASH: {}", msg)).await;
+            }
+        }
+    }
 }

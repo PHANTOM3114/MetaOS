@@ -16,6 +16,8 @@ public:
     std::string PipelineStatusFetch() override;
     bool UpdateToken(const std::string& providerName, const std::string& token) override;
 
+    void emitSonarStopWorkSignal(const std::string& message);
+
 private:
     std::vector<std::unique_ptr<IPipelineProvider>> providers_;
 };

@@ -12,5 +12,5 @@ build/
 
 .env
 
-/target
+target/
 

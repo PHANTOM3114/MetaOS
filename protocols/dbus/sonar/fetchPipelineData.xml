@@ -8,16 +8,20 @@
             <arg direction="out" type="s" name="pipelineStatus"/>
         </method>
 
-        <signal name="statusChanging">
-            <arg type="s" name="statusType"/>
-        </signal>
-
         <method name="UpdateToken">
             <arg direction="in" type="s" name="providerName"/>
             <arg direction="in" type="s" name="token"/>
             
             <arg direction="out" type="b" name="success"/>
         </method>
+
+        <signal name="SonarWorkStop">
+            <arg direction="out" type="s" name="exitMessage"/>
+        </signal>
+
+        <signal name="SonarCrash">
+            <arg direction="out" type="s" name="crashMessage"/>
+        </signal>
         
     </interface>
 </node>
