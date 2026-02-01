@@ -1,9 +1,9 @@
 //C++ Standard Includes
-#include <chrono>
+#include <signal.h>
 #include <csignal>
 #include <exception>
 #include <iostream>
-#include <mutex>
+#include <memory>
 #include <thread>
 
 //Libs
@@ -13,36 +13,35 @@
 
 #include <adapters/dbus_adapter.h>
 
-std::unique_ptr<sdbus::IConnection> g_connection;
-
-void signal_handler(int signum) {
-    std::cout << "\nInterrupt signal (" << signum << ") received. Stopping loop...\n";
-
-    if (g_connection) {
-        g_connection->leaveEventLoop();
-    }
-}
-
 int main() {
 
-    try {
-        std::signal(SIGINT, signal_handler);
-        std::signal(SIGTERM, signal_handler);
+    int signal;
+    sigset_t set;
 
+    sigemptyset(&set);
+    sigaddset(&set, SIGINT);
+    sigaddset(&set, SIGTERM);
+
+    pthread_sigmask(SIG_BLOCK, &set, nullptr);
+
+    try {
         sdbus::ServiceName serviceName{"org.ars.sonar"};
-        g_connection = sdbus::createSessionBusConnection(serviceName);
+        auto connection = sdbus::createSessionBusConnection(serviceName);
 
         sdbus::ObjectPath objectPath{"/org/ars/sonar"};
-        DbusAdapter adapter(*g_connection, std::move(objectPath));
+        DbusAdapter adapter(*connection, std::move(objectPath));
 
-        g_connection->enterEventLoop();
-
-        std::cout << "Exiting event loop. Sending goodbye signal..." << std::endl;
+        std::thread eventLoopThread([&]() { connection->enterEventLoop(); });
+        sigwait(&set, &signal);
 
         adapter.emitSonarStopWorkSignal("Sonar exit gracefully...");
         std::cout << "Signal emitted..." << std::endl;
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        connection->leaveEventLoop();
+
+        if (eventLoopThread.joinable()) {
+            eventLoopThread.join();
+        }
 
     } catch (std::exception& e) {
         std::cout << "ERROR: " << e.what() << std::endl;
