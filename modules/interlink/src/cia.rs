@@ -1,54 +1,28 @@
-use std::env;
 use matrix_sdk::{
     Client,
     ruma::{
         events::room::message::RoomMessageEventContent,
         RoomId,
-        OwnedRoomId
     },
 };
 use tracing::{info}; 
 use anyhow::{anyhow, Context}; 
 
-use crate::common::common::CriticalLvl;
+use crate::common::{common::CriticalLvl, config::CiaBotFullConfig};
 
-pub struct ClientData {
-    client_homeserver_url: String,
-    client_username: String,
-    client_password: String, 
-    client_target_room_id: String
-}
-
-pub async fn build_and_login() -> anyhow::Result<(Client, OwnedRoomId)> {
-    println!("ENV scanning...");
-    let homeserver_url = env::var("MATRIX_HOMESERVER")?;
-    let username = env::var("MATRIX_BOT_USERNAME")?;
-    let password = env::var("MATRIX_BOT_PASSWORD")?;
-    let room_id_str = env::var("MATRIX_TARGET_ROOM_ID")?;
-
-    println!("client_data filling...");
-
-    let target_room_id = RoomId::parse(&room_id_str)?;
-
-    let client_data = ClientData {
-        client_homeserver_url: homeserver_url,
-        client_username: username,
-        client_password: password,
-        client_target_room_id: room_id_str,
-    };
-    
+pub async fn build_and_login(config: &CiaBotFullConfig) -> anyhow::Result<Client> {
     let client = Client::builder()
-        .homeserver_url(client_data.client_homeserver_url)
+        .homeserver_url(&config.homeserver_url)
         .build()
         .await?;
     
     client.matrix_auth()
-        .login_username(&client_data.client_username, &client_data.client_password)
-        .initial_device_display_name("CIA_BOT")
+        .login_username(&config.username, &config.password)
+        .initial_device_display_name("C.I.A")
         .await?;
 
     println!("returning Ok()");
-    Ok((client, target_room_id))
+    Ok(client)
 }
 
 pub async fn send_message_to_room(
