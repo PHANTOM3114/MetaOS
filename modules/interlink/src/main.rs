@@ -1,5 +1,6 @@
 mod cia;
 mod common;
+mod auth;
 
 mod listeners {
     pub mod sonar;
@@ -7,8 +8,10 @@ mod listeners {
 
 use crate::listeners::sonar::SonarMessageAcceptProxy;
 use crate::common::common::{CiaBotData, ModuleMessageAccept};
+use crate::common::config::{load_config, CiaBotFullConfig};
 
 use anyhow::{anyhow};
+use matrix_sdk::ruma::RoomId;
 use tracing::{info, error};
 use zbus::{Connection};
 use futures_util::stream::StreamExt;
@@ -17,18 +20,13 @@ use futures_util::stream::StreamExt;
 async fn main() -> anyhow::Result<()> {
     tracing_subscriber::fmt::init();
 
-    let exe_path = std::env::current_exe()?;
-    let exe_dir = exe_path.parent().ok_or(anyhow!("Failed to get binary directory"))?;
-    let env_path = exe_dir.join(".env");
-    
-    if let Err(e) = dotenv::from_path(&env_path) {
-        info!("Warning: .env file not found: {}", e);
-    } else {
-        info!("Successfully loaded .env file");
-    }
+    let config = load_config()?;
 
-    let (client, target_room_id) = cia::build_and_login().await?;
+    let client = cia::build_and_login(&config).await?;
     info!("Logged in as {}", client.user_id().unwrap());
+
+    let target_room_id = RoomId::parse(&config.target_room_id)
+        .map_err(|e| anyhow!("Invalid Room ID in config: {}", e))?;
 
     info!("Syncing...");
     client.sync_once(Default::default()).await?;
