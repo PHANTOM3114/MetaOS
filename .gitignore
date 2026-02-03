@@ -10,7 +10,14 @@ build/
 *.iml
 *.clwb/
 
+*.db
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+config_local.toml
 .env
+
+matrix-store/
 
 target/
 
